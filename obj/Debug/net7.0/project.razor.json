@@ -18645,13 +18645,13 @@
   "RootNamespace": "PetShop",
   "Documents": [
     {
-      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Product\\Index.cshtml",
+      "TargetPath": "Views\\Product\\Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Food\\Create.cshtml",
-      "TargetPath": "Views\\Food\\Create.cshtml",
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -18660,8 +18660,18 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Food\\Index.cshtml",
-      "TargetPath": "Views\\Food\\Index.cshtml",
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Product\\Create.cshtml",
+      "TargetPath": "Views\\Product\\Create.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Category\\Edit.cshtml",
+      "TargetPath": "Views\\Category\\Edit.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Product\\Details.cshtml",
+      "TargetPath": "Views\\Product\\Details.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -18675,8 +18685,23 @@
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Food\\Delete.cshtml",
-      "TargetPath": "Views\\Food\\Delete.cshtml",
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Product\\Delete.cshtml",
+      "TargetPath": "Views\\Product\\Delete.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Product\\Edit.cshtml",
+      "TargetPath": "Views\\Product\\Edit.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Category\\Create.cshtml",
+      "TargetPath": "Views\\Category\\Create.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Category\\Index.cshtml",
+      "TargetPath": "Views\\Category\\Index.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -18685,23 +18710,23 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Category\\Details.cshtml",
+      "TargetPath": "Views\\Category\\Details.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Category\\Delete.cshtml",
+      "TargetPath": "Views\\Category\\Delete.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\_ViewImports.cshtml",
       "TargetPath": "Views\\_ViewImports.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Food\\Edit.cshtml",
-      "TargetPath": "Views\\Food\\Edit.cshtml",
-      "FileKind": "mvc"
-    },
-    {
       "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Shared\\_Layout.cshtml",
       "TargetPath": "Views\\Shared\\_Layout.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "c:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\Views\\Food\\Details.cshtml",
-      "TargetPath": "Views\\Food\\Details.cshtml",
       "FileKind": "mvc"
     }
   ],

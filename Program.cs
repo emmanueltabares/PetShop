@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PetShop.Data;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<FoodContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("FoodContext") ?? throw new InvalidOperationException("Connection string 'FoodContext' not found.")));
+builder.Services.AddDbContext<ProductContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("ProductContext") ?? throw new InvalidOperationException("Connection string 'ProductContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

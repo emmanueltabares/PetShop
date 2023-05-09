@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PetShop.Models;
 
-public class Food {
+public class Product {
 
-    public int FoodId { get; set; }
+    public int Id { get; set; }
     
     [Display(Name = "Marca")]
     public string Make { get; set; }
@@ -12,12 +12,11 @@ public class Food {
     [Display(Name = "Nombre")]
     public string Name { get; set; }
 
-    [Display(Name = "Categoria")]
-    public string Categorie { get; set; }
-
-    [Display(Name = "Informacón")]
-    public string Info { get; set; }
-
     [Display(Name = "Precio")]
     public float Price { get; set; }
+
+    [Display(Name = "Categoría")]
+    public int CategoryId { get; set; }
+
+    public virtual Category Category { get; set; }
 }
