@@ -10085,11 +10085,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\PetShop.csproj",
+      "projectUniqueName": "C:\\Users\\Manu\\Desktop\\Facultad\\Parcial1\\PetShop\\PetShop.csproj",
       "projectName": "PetShop",
-      "projectPath": "C:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\PetShop.csproj",
+      "projectPath": "C:\\Users\\Manu\\Desktop\\Facultad\\Parcial1\\PetShop\\PetShop.csproj",
       "packagesPath": "C:\\Users\\Manu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\obj\\",
+      "outputPath": "C:\\Users\\Manu\\Desktop\\Facultad\\Parcial1\\PetShop\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Manu\\AppData\\Roaming\\NuGet\\NuGet.Config",

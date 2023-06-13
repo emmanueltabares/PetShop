@@ -29,7 +29,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
+                <select asp-for="CategoryId" class="form-control">
+                    <option value="0">Gatos</option>
+                    <option value="1">Perros</option>
+                    <option value="2">Peces</option>
+                    <option value="3">Aves</option>
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -13,48 +13,31 @@ namespace PetShop.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ProductContext _context;
+        private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public ProductController(ProductContext context)
+        public ProductController(IProductService productService, ICategoryService categoryService)
         {
-            _context = context;
+            _productService = productService;
+            _categoryService = categoryService;
         }
 
         // GET: Product
-        public async Task<IActionResult> Index(string Filter)
+        public IActionResult Index(string? filter)
         {
-           var query = from product in _context.Product select product;
-
-            if (!string.IsNullOrEmpty(Filter))
-            {
-                query = query.Where(x => x.Make.Contains(Filter));
-            }
-
-            var categories = query.Include(x => x.Category).ToListAsync();
-
             var model = new ProductViewModel();
-            model.Products = await query.ToListAsync();
+            model.Products = filter != null ? _productService.GetAll(filter) : _productService.GetAll();
 
-            return _context.Product != null ? 
-                          View(model) :
-                          Problem("Entity set 'ProductContext.Product'  is null.");
+            return View(model);     
         }
 
         // GET: Product/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
-            if (id == null || _context.Product == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Product
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
+            
+            var product = _productService.GetById(id.Value);
+            if (product == null) return NotFound();
 
             return View(product);
         }
@@ -62,7 +45,8 @@ namespace PetShop.Controllers
         // GET: Product/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "Id");
+            var categoryList = _categoryService.GetAll();
+            ViewData["CategoryId"] = new SelectList(categoryList, "Id", "Name");
             return View();
         }
 
@@ -71,32 +55,25 @@ namespace PetShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Make,Name,Price,CategoryId")] Product product)
+        public IActionResult Create([Bind("Id,Make,Name,Price,CategoryId")] Product product)
         {
-
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+            ModelState.Remove("Category");
+            if (ModelState.IsValid)
+            {
+                _productService.Create(product);
                 return RedirectToAction(nameof(Index));
-            
-
-            // ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "Id", product.CategoryId);
-            // return View(product);
+            }
+            return View(product);
         }
 
         // GET: Product/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null || _context.Product == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var product = await _context.Product.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "Id", product.CategoryId);
+            var product =  _productService.GetById(id.Value);
+            if (product == null) return NotFound();
+            // ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "Id", product.CategoryId);
             return View(product);
         }
 
@@ -105,48 +82,32 @@ namespace PetShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Make,Name,Price,CategoryId")] Product product)
+        public IActionResult Edit(int id, [Bind("Id,Make,Name,Price,CategoryId")] Product product)
         {
-            if (id != product.Id)
-            {
-                return NotFound();
-            }
+            if (id != product.Id) return NotFound();
+            if(ModelState.IsValid) {
 
-            try
-            {
-                _context.Update(product);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(product.Id))
+                try
                 {
-                    return NotFound();
+                    _productService.Update(product);
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!ProductExists(product.Id)) return NotFound();
+                    else throw;
                 }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
-            
+            return View(product);
         }
 
         // GET: Product/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
-            if (id == null || _context.Product == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Product
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
+            
+            var product = _productService.GetById(id.Value);
+            if (product == null) return NotFound();
 
             return View(product);
         }
@@ -154,25 +115,15 @@ namespace PetShop.Controllers
         // POST: Product/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            if (_context.Product == null)
-            {
-                return Problem("Entity set 'ProductContext.Product'  is null.");
-            }
-            var product = await _context.Product.FindAsync(id);
-            if (product != null)
-            {
-                _context.Product.Remove(product);
-            }
-            
-            await _context.SaveChangesAsync();
+           _productService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-          return (_context.Product?.Any(e => e.Id == id)).GetValueOrDefault();
+          return _productService.GetById(id) != null;
         }
     }
 }

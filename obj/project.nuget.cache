@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NkBVkpCmRWmGzOuPOG3jUPCTkk5wbEdrraClncngN232rrcfY+Trp3mk6Z3bmreWNtJveXOwlyQwb+RigSAF/Q==",
+  "dgSpecHash": "hR7s3XE1dxaIyf7/T36At2OV3ZSBaZQlaEijFZBPUb4etRDfWobhUhom3JZ3Y2uKHBTSt/TuUPk9LUMuJFWKuw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Manu\\Desktop\\Parcial1\\PetShop\\PetShop.csproj",
+  "projectFilePath": "C:\\Users\\Manu\\Desktop\\Facultad\\Parcial1\\PetShop\\PetShop.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Manu\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Manu\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.11\\microsoft.aspnetcore.razor.language.6.0.11.nupkg.sha512",
