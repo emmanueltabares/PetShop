@@ -21,7 +21,7 @@ public class RolesController : Controller
         _roleManager = roleManager;
     }
 
-    [Authorize(Roles = "Administrador")]
+    // [Authorize(Roles = "Administrador")]
     public IActionResult Index()
     {
         //listar todos los roles
