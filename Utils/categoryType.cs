@@ -2,7 +2,7 @@ namespace PetShop.Utils;
 
 public enum CategoryType
 {
-    Gatos,
+    Gatos = 1,
     Perros,
     Peces,
     Aves

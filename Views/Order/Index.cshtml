@@ -1,0 +1,29 @@
+@model PetShop.ViewModel.OrderViewModel
+
+<h2>Detalle de Ordenes de Compra</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Fecha</th>
+                <!-- Agregar más encabezados de columnas según tus necesidades -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.orders)
+            {
+                <tr>
+                    <td>@order.producto</td>
+                    <td>@order.quantity</td> 
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p>
+    <a asp-action="Create">Generar nueva orden</a>
+</p>

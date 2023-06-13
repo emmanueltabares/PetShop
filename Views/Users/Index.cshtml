@@ -1,0 +1,40 @@
+@using Microsoft.AspNetCore.Identity
+@model List<IdentityUser> 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Usuarios</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Usuarios</h2>
+        
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Nombre</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td><a asp-action="Details" asp-route-id="@user.Id">Detalles</a></td>
+                        <td><a asp-action="Edit" asp-route-id="@user.Id">Editar</a></td>
+                    </tr>
+                    
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

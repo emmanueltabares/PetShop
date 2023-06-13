@@ -15,6 +15,9 @@ public class Product {
     [Display(Name = "Precio")]
     public float Price { get; set; }
 
+    [Display(Name = "Stock")]
+    public int Stock { get; set; }
+
     [Display(Name = "Categoría")]
     public int CategoryId { get; set; }
 

@@ -28,12 +28,17 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Stock" class="control-label"></label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <select asp-for="CategoryId" class="form-control">
-                    <option value="0">Gatos</option>
-                    <option value="1">Perros</option>
-                    <option value="2">Peces</option>
-                    <option value="3">Aves</option>
+                    <option value="1">Gatos</option>
+                    <option value="2">Perros</option>
+                    <option value="3">Peces</option>
+                    <option value="4">Aves</option>
                 </select>
             </div>
             <div class="form-group">

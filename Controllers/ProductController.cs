@@ -55,7 +55,7 @@ namespace PetShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Make,Name,Price,CategoryId")] Product product)
+        public IActionResult Create([Bind("Id,Make,Name,Price,Stock,CategoryId")] Product product)
         {
             ModelState.Remove("Category");
             if (ModelState.IsValid)
@@ -82,7 +82,7 @@ namespace PetShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Make,Name,Price,CategoryId")] Product product)
+        public IActionResult Edit(int id, [Bind("Id,Make,Name,Price,Stock,CategoryId")] Product product)
         {
             if (id != product.Id) return NotFound();
             if(ModelState.IsValid) {
