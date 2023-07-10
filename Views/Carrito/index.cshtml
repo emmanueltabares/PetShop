@@ -1,0 +1,83 @@
+@using PetShop.ViewModel;
+@model CartViewModel;
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    form {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    input[type="number"] {
+        width: 50px;
+        padding: 5px;
+    }
+
+    .total {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .boton-generar-orden {
+        margin-top: 20px;
+    }
+</style>
+
+<h2>Carrito de Compras</h2>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>
+                        <form asp-controller="Carrito" asp-action="UpdateQuantity" method="post">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            @* <input type="number" name="cantidad" value="@product.quantity" /> *@
+                            <button type="submit">Actualizar</button>
+                        </form>
+                    </td>
+                    <td>@product.Price</td>
+                    <td>@(product.Price /* product.Cantidad*/)</td>
+                    <td>
+                        <form asp-controller="Carrito" asp-action="DeleteProduct" method="post">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3 class="total">Total de la compra: @Model.Products.Sum(p => p.Price /* p.Cantidad*/)</h3>
+
+    <form class="boton-generar-orden" asp-controller="Carrito" asp-action="GenerarOrden" method="post">
+        <input type="submit" value="Generar Orden de Compra" />
+    </form>

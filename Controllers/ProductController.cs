@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using PetShop.Data;
 using PetShop.Models;
 using PetShop.ViewModel;
@@ -15,11 +17,15 @@ namespace PetShop.Controllers
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IMemoryCache _cache;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ProductController(IProductService productService, ICategoryService categoryService)
+        public ProductController(IMemoryCache cache, IProductService productService, ICategoryService categoryService, UserManager<IdentityUser> userManager)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _cache = cache;
+            _userManager = userManager;
         }
 
         // GET: Product
@@ -125,5 +131,6 @@ namespace PetShop.Controllers
         {
           return _productService.GetById(id) != null;
         }
+
     }
 }

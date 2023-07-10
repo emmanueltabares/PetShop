@@ -5,6 +5,64 @@
     ViewData["Title"] = "Details";
 }
 
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            color: #fff;
+            padding: 10px;
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .user-table {
+            margin-bottom: 20px;
+        }
+
+        .user-table th,
+        .user-table td {
+            padding: 8px;
+        }
+
+        .user-table th {
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .user-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .user-table .btn-group {
+            margin-top: 5px;
+        }
+
+        .btn {
+            color: #fff;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out;
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+ 
+            margin-inline: 5px;
+        }
+
+    </style>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,28 +71,28 @@
 </head>
 <body>
     <div class="container">
-        <table class="table">
-            <tbody>
-                <thead class="thead-light">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                    </tr>
-                </thead>
+        <table class="table user-table">
+            <thead>
                 <tr>
-                    <th>Nombre de usuario</th>
+                    <th>Campo</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nombre de usuario</td>
                     <td>@Model.UserName</td>
                 </tr>
                 <tr>
-                    <th>Correo Electrónico</th>
-                    <td>@Model.Email</td>
+                    <td>Correo Electrónico</td>
+                    <td>@Model.Email<td>
                 </tr>
                 <tr>
-                    <th>Teléfono</th>
+                    <td>Teléfono</td>
                     <td>@Model.PhoneNumber</td>
                 </tr>
                 <tr>
-                    <th>Role</th>
+                    <td>Roles</td>
                     <td>
                         @foreach (var role in Model.Roles)
                         {
@@ -44,10 +102,10 @@
                 </tr>
             </tbody>
         </table>
-    </div>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
+        <div>
+            <a asp-action="Index" value="Volver" class="btn btn-secondary">Volver</a>
+        </div>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

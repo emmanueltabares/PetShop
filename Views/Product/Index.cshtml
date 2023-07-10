@@ -4,67 +4,223 @@
 @{
     ViewData["Title"] = "Index";
 }
+    <style>
 
-<h1>Index</h1>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+        header {
+            color: #fff;
+            padding: 10px;
+        }
 
-<div class="row">
-    <form method="get" asp-action="Index" asp-controller="Product">
-        <div class="col-6 form-group">
-            <input class="form-control" asp-for="Filter" />
+        .header {
+            text-align: right;
+        }
+
+        .container {
+            
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -15px;
+        }
+
+        .col-md-4 {
+            flex: 0 0 33.33%;
+            max-width: 33.33%;
+            padding: 15px;
+        }
+
+        .card {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+        }
+
+        .card-img-top {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            margin-bottom: 10px;
+        }
+
+        .card-price {
+            font-size: 18px;
+            color: #007bff;
+            margin-top: 5px;
+        }
+
+        .btn {
+            margin-top: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .btn-success {
+            color: #fff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .btn-danger {
+            color: #fff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #053e7a;
+            border-color: #053e7a;
+        }
+
+        .btn-success:hover {
+            background-color: #0a3b1f;
+            border-color: #0a3b1f;
+        }
+
+        .btn-danger:hover {
+            background-color: #5e1c1c;
+            border-color: #5e1c1c;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            margin-right: 10px;
+        }
+
+        .search-btn {
+            margin-left: 10px;
+        }
+
+        .btn-add-product {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+
+    </style>
+
+    <body>
+        
+        <div class="container">
+
+        <div class="container">
+            <form class="search-form" method="get" asp-action="Index" asp-controller="Product" >
+                <div class="form">
+                    <input type="text" class="form-control search-input" asp-for="Filter" placeholder="Producto">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm search-btn">Buscar</button>
+                @if(User.IsInRole("Administrator")) { 
+                <div class="container header">
+                    <a asp-action="Create" class="btn btn-primary btn-add-product">Agregar un producto</a>
+                </div>
+            }
+            </form>
+
         </div>
-        <button class="btn" type="submit">Buscar</button>
-    </form>
-</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Products[0].Make)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Products[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Products[0].Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Products[0].Stock)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Products[0].Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Products) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Make)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <div class="container">
+            <div class="row">
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col-md-4">
+                        <div class="card">
+                            @* <img src="@producto." class="card-img-top" alt="@producto.Nombre"> *@
+                            <div class="card-body">
+                                <h2 class="card-title">@Html.DisplayFor(modelItem => product.Make)</h2>
+                                <h3 class="card-text">@Html.DisplayFor(modelItem => product.Name)</h3>
+                                <div class="card-price">$@Html.DisplayFor(modelItem => product.Price)</div>
+                                <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam turpis sit amet justo malesuada, id fermentum risus lacinia.</p>
+                                <div class="product-buttons">
+
+                                    <form asp-controller="Carrito" asp-action="AddToCart" method="post">
+                                        <input type="hidden" name="productId" value="@product.Id" />
+                                        <button type="submit">Agregar al carrito</button>
+                                    </form>
+                                    
+                                    @if(User.IsInRole("Administrator")) {
+                                        <a class="btn btn-success btn-sm" asp-action="Edit" asp-route-id="@product.Id">Editar</a>
+                                        <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@product.Id">Eliminar</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    @* <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que deseas eliminar este producto?
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <a asp-action="Delete" asp-route-id="" class="btn btn-danger">Eliminar</a>
+                    </div>
+            </div>
+        </div>
+    </div> *@
+        
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+ </body>
+
+
+ 
+
+   
+
+

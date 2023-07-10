@@ -56,7 +56,7 @@ public class UsersController : Controller
         {
             user.Email = model.Email;
             user.UserName = model.UserName;
-            await _userManager.AddToRoleAsync(user, model.Role);
+            await _userManager.AddToRoleAsync(user, model.Rol);
         }
 
         return RedirectToAction("Index");

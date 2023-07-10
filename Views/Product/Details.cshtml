@@ -4,9 +4,60 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+    <style>
+        .product-details {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .product-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            color: #007bff;
+            margin-top: 5px;
+        }
+
+        .product-description {
+            margin-top: 20px;
+        }
+
+        .product-buttons {
+            margin-top: 20px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="product-details">
+            <img class="product-image" src="product-image.jpg" alt="Product Image">
+            <h2 class="product-title">@Html.DisplayFor(model => model.Name)</h2>
+            <div class="product-price">$@Html.DisplayFor(model => model.Price)</div>
+            <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam turpis sit amet justo malesuada, id fermentum risus lacinia.</p>
+            <div class="product-buttons">
+                <a href="#" class="btn btn-primary">Agregar al carrito</a>
+                <a href="#" class="btn btn-secondary">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 
 <div>
+
     <h4>Product</h4>
     <hr />
     <dl class="row">
@@ -43,6 +94,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <a asp-action="Index">Volver</a>
 </div>

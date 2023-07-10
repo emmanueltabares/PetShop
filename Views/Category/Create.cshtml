@@ -4,29 +4,58 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+    <style>
+        .add-product-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-<h4>Category</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        .form-group label {
+            font-weight: bold;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-group .btn {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+    </style>
+
+    <div class="container">
+        <div class="add-product-form">
+            <h2 style="font-family: Arial, sans-serif;">Agregar categoría</h2>
+            <form asp-action="Create">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Agregar" class="btn btn-primary" />
+                    <a asp-action="Index" value="Volver" class="btn btn-secondary">Volver</a>
+                </div>
+
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

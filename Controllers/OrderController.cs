@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PetShop.Data;
 using PetShop.Models;
 using PetShop.ViewModel;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace PetShop.Controllers;
 
@@ -15,6 +16,7 @@ public class OrderController : Controller {
 
     private readonly IOrderService _orderService;
     private readonly IProductService _productService;
+
 
     public OrderController(IOrderService orderService, IProductService productService)
     {
@@ -24,8 +26,11 @@ public class OrderController : Controller {
 
     public IActionResult Index()
     {
+
+        // if(User.Identity.IsAuthenticated )
         var model = new OrderViewModel();
         model.orders = _orderService.GetAll();
+        
         return View(model);
     } 
 

@@ -21,7 +21,6 @@ public class RolesController : Controller
         _roleManager = roleManager;
     }
 
-    // [Authorize(Roles = "Administrador")]
     public IActionResult Index()
     {
         //listar todos los roles
@@ -34,6 +33,7 @@ public class RolesController : Controller
         return View();
     }
 
+    [Authorize(Roles = "Administrator")]
     [HttpPost]
     public IActionResult Create(RoleCreateViewModel model)
     {
