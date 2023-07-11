@@ -20,8 +20,8 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Carrito/index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2Fycml0b1xpbmRleC5jc2h0bWw=
+[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Cart/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Category/Create.cshtml]
@@ -50,10 +50,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Order/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Order/Index.cshtml]

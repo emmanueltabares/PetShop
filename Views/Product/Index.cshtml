@@ -137,9 +137,43 @@
             text-decoration: none;
             font-size: 16px;
         }
-        
+
+        /* MODAL */
+
+        .modal-content {
+            border-radius: 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header {
+            background-color: #f8f9fa;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            background-color: #f8f9fa;
+            border-top: none;
+        }
+
+        .modal-footer .btn {
+            border-radius: 0;
+        }
 
     </style>
+
+    <head>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
 
     <body>
         
@@ -174,9 +208,9 @@
                                 <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquam turpis sit amet justo malesuada, id fermentum risus lacinia.</p>
                                 <div class="product-buttons">
 
-                                    <form asp-controller="Carrito" asp-action="AddToCart" method="post">
+                                    <form asp-controller="Cart" asp-action="AddToCart" method="post">
                                         <input type="hidden" name="productId" value="@product.Id" />
-                                        <button type="submit">Agregar al carrito</button>
+                                        <button type="submit" class="btn btn-primary btn-sm">Agregar al carrito</button>
                                     </form>
                                     
                                     @if(User.IsInRole("Administrator")) {
@@ -193,29 +227,28 @@
 
     </div>
 
-    @* <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ¿Estás seguro de que deseas eliminar este producto?
-                </div>
-                <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <a asp-action="Delete" asp-route-id="" class="btn btn-danger">Eliminar</a>
+    @if (TempData["ProductoAgregado"] != null && (bool)TempData["ProductoAgregado"])
+    {
+        <div id="modalProductoAgregado" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Producto agregado correctamente</h5>
                     </div>
+                </div>
             </div>
         </div>
-    </div> *@
-        
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+        <script>
+            $(document).ready(function () {
+                $("#modalProductoAgregado").modal("show");
+
+                setTimeout(function () {
+                    $("#modalProductoAgregado").modal("hide");
+                }, 2000);
+            });
+        </script>
+    }
  </body>
 
 

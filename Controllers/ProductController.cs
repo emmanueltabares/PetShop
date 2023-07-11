@@ -31,6 +31,11 @@ namespace PetShop.Controllers
         // GET: Product
         public IActionResult Index(string? filter)
         {
+
+            if(TempData["ProductoAgregado"] != null) {
+                bool productAdded = (bool)TempData["ProductoAgregado"];
+            }
+
             var model = new ProductViewModel();
             model.Products = filter != null ? _productService.GetAll(filter) : _productService.GetAll();
 

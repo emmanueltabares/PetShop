@@ -1,0 +1,129 @@
+@using PetShop.ViewModel;
+@model CartViewModel;
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    form {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    input[type="number"] {
+        width: 50px;
+        padding: 5px;
+    }
+
+    .total {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .boton-generar-orden {
+        margin-top: 20px;
+    }
+
+    .btn-success {
+        color: #fff;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .btn-danger {
+        color: #fff;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #053e7a;
+        border-color: #053e7a;
+    }
+
+    .btn-success:hover {
+        background-color: #0a3b1f;
+        border-color: #0a3b1f;
+    }
+
+    .btn-danger:hover {
+        background-color: #5e1c1c;
+    }
+
+</style>
+
+<h2>Carrito de Compras</h2>
+
+    <head>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartProduct in Model.CartProducts)
+            {
+                <tr>
+                    <td>@cartProduct.product.Name</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="UpdateQuantity" method="post">
+                            <input type="hidden" name="productId" value="@cartProduct.product.Id" />
+                            <input type="number" name="quantity" value="@cartProduct.quantity" max="@cartProduct.product.Stock" min="0"/>
+                            <button type="submit" class="btn btn-success btn-sm">Actualizar</button>
+                        </form>
+                    </td>
+                    <td>@cartProduct.product.Price</td>
+                    <td>@(cartProduct.product.Price * cartProduct.quantity)</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="DeleteProduct" method="post">
+                            <input type="hidden" name="productId" value="@cartProduct.product.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3 class="total">Total de la compra: @Model.CartProducts.Sum(p => p.product.Price * p.quantity)</h3>
+
+    @using (Html.BeginForm("CreateOrder", "Order", FormMethod.Post))
+    {
+        @* <input type="text" name="Propiedad1" />
+        <input type="number" name="Propiedad2" />
+        <!-- Otros campos de entrada -->
+
+        <input type="submit" value="Enviar" /> *@
+        <input type="hidden" name="CartProducts" />
+        <button type="submit" class="btn btn-success btn-sm">Generar orden de compra</button>
+        @* <form class="boton-generar-orden" asp-controller="Order" asp-action="CreateOrder" method="post">
+        </form> *@
+    }
+
