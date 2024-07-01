@@ -1,42 +1,15 @@
-@model PetShop.Models.Product
+@using PetShop.ViewModel;
+@model PetShop.ViewModel.ProductViewModels.ProductDeleteViewModel;
 
-@{
-    ViewData["Title"] = "Delete";
-}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-<h3>¿Estás seguro de querer eliminar este producto?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Make)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Make)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.Id)
-        </dd>
-    </dl>
-    
-    <form class="form-group" asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Eliminar" class="btn btn-danger" />
-        <a asp-action="Index" value="Volver" class="btn btn-secondary">Volver</a>
+<div class="container">
+    <h4 class="center-align red-text">Eliminar Producto</h4>
+    <p>¿Estás seguro de que deseas eliminar el producto <strong>@Model.Name</strong>?</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="ProductId" value="@Model.ProductId" />
+        <button type="submit" class="btn red waves-effect waves-light">Eliminar</button>
+        <a href="@Url.Action("Index", "Product")" class="btn grey waves-effect waves-light">Cancelar</a>
     </form>
 </div>

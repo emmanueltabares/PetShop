@@ -1,5 +1,5 @@
 using PetShop.Models;
-using PetShop.ViewModel;
+namespace PetShop.Interfaces;
 
 public interface IOrderService
 {

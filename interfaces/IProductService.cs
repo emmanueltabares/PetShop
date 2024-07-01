@@ -1,4 +1,5 @@
 using PetShop.Models;
+namespace PetShop.Interfaces;
 
 public interface IProductService {
   void Create(Product obj);

@@ -1,89 +1,33 @@
-@model Product
+@using PetShop.ViewModel;
+@model PetShop.ViewModel.ProductViewModels.ProductEditViewModel;
 
-@{
-    ViewData["Title"] = "Edit";
-}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <style>
-        .edit-product-form {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-top: 10px;
-        }
-
-        .form-group label {
-            font-weight: bold;
-            font-size: 16px;
-            font-family: Arial, sans-serif;
-        }
-
-        .form-group input[type="text"],
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: Arial, sans-serif;
-        }
-
-        .form-group .btn {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 16px;
-            font-family: Arial, sans-serif;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-    </style>
-
-    <div class="container">
-        <div class="edit-product-form">
-            <h2 style="font-family: Arial, sans-serif;">Editar Producto</h2>
-            <form asp-action="Create">
-                <div class="form-group">
-                    <label asp-for="Make" class="control-label"></label>
-                    <input asp-for="Make" class="form-control" />
-                    <span asp-validation-for="Make" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Price" class="control-label"></label>
-                    <input asp-for="Price" class="form-control" />
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Stock" class="control-label"></label>
-                    <input asp-for="Stock" class="form-control" />
-                    <span asp-validation-for="Stock" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CategoryId" class="control-label"></label>
-                    <select asp-for="CategoryId" class="form-control">
-                        <option value="1">Gatos</option>
-                        <option value="2">Perros</option>
-                        <option value="3">Peces</option>
-                        <option value="4">Aves</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Guardar" class="btn btn-primary" />
-                    <a asp-action="Index" value="Volver" class="btn btn-secondary">Volver</a>
-                </div>
-
-            </form>
+<div class="container">
+    <h4 class="center-align">Editar Producto</h4>
+    <form asp-action="Edit" method="post">
+        <div class="input-field">
+            <input type="text" id="Name" name="Name" value="@Model.Name" required>
+            <label for="Name" class="active">Nombre</label>
         </div>
-    </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        <div class="input-field">
+            <input type="number" step="0.01" id="Price" name="Price" value="@Model.Price" required>
+            <label for="Price" class="active">Precio</label>
+        </div>
+        <div class="input-field">
+            <input type="number" id="Stock" name="Stock" value="@Model.Stock" required>
+            <label for="Stock" class="active">Stock</label>
+        </div>
+         <div class="input-field">
+            <input type="text" id="Cod" name="Cod" value="@Model.Cod" required>
+            <label for="Cod">Código</label>
+        </div>
+        <div class="input-field">
+            <textarea id="Description" name="Description" value="@Model.Description" class="materialize-textarea"></textarea>
+            <label for="Description">Descripción</label>
+        </div>
+        <button type="submit" class="btn waves-effect waves-light">Guardar Cambios</button>
+        <a href="@Url.Action("Index", "Product")" class="btn grey waves-effect waves-light">Cancelar</a>
+    </form>
+</div>

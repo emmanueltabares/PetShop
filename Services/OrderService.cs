@@ -1,4 +1,5 @@
 using PetShop.Data;
+using PetShop.Interfaces;
 using PetShop.Models;
 
 class OrderService : IOrderService {
@@ -21,5 +22,4 @@ class OrderService : IOrderService {
     var query = from order in _context.Order select order;
     return query.ToList();
   }
-
 }

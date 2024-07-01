@@ -1,25 +1,23 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PetShop.Models;
 
 public class Product {
 
-    public int Id { get; set; }
-    
-    [Display(Name = "Marca")]
-    public string Make { get; set; }
-
-    [Display(Name = "Nombre")]
-    public string Name { get; set; }
-
-    [Display(Name = "Precio")]
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int ProductId { get; set; }
+    public int MakeId { get; set; }
+    public int ProductCategoryId { get; set; }
+    public int AnimalCategoryId { get; set; }
+    public required string Name { get; set; }
+    public int? Cod { get; set; }
+    public string? Description { get; set; }
     public float Price { get; set; }
-
-    [Display(Name = "Stock")]
     public int Stock { get; set; }
-
-    [Display(Name = "Categoría")]
-    public int CategoryId { get; set; }
-
-    public virtual Category Category { get; set; }
+    public virtual ProductCategory ProductCategory { get; set; }
+    public virtual AnimalCategory AnimalCategory { get; set; }
+    public virtual Make Make { get; set; }
+    public virtual List<OrderDetail> OrderDetails { get; set; }
 }

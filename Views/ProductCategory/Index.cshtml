@@ -1,0 +1,88 @@
+@model PetShop.ViewModel.ProductCategoryViewModels.ProductCategoryListViewModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<style>
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .table-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .action-buttons {
+        display: inline-block;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+    .action-cell {
+        justify-content: center;
+        align-items: center;
+        padding: 8px 16px;
+        text-align: right;
+        white-space: nowrap;
+    }
+    .action-buttons a {
+        margin: 0 5px;
+        padding: 0 10px;
+        font-size: 0.8rem;
+        margin-left: 5px;
+    }
+    th, td {
+        padding: 8px 16px;
+        vertical-align: middle;
+    }
+</style>
+
+<div class="container">
+    <h4 class="center-align">Listado de Categorías de Productos</h4>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form asp-controller="ProductCategory" asp-action="Index" method="get" class="form-inline">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar por nombre" aria-label="Buscar por nombre" aria-describedby="basic-addon2" name="filter" value="@Model.Filter">
+                </div>
+                <div class="input-group">
+                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-container table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <tr>
+                            <td>@category.ProductCategoryId</td>
+                            <td>@category.Name</td>
+                            <td class="action-cell">
+                                <div class="action-buttons">
+                                    <a asp-controller="ProductCategory" asp-action="Edit" asp-route-id="@category.ProductCategoryId" class="btn-small waves-effect waves-light">Editar</a>
+                                    <a asp-controller="ProductCategory" asp-action="Delete" asp-route-id="@category.ProductCategoryId" class="btn-small red waves-effect waves-light">Eliminar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="center-align">
+        <a asp-controller="ProductCategory" asp-action="Create" class="btn waves-effect waves-light">Agregar Categoría</a>
+    </div>
+
+</div>

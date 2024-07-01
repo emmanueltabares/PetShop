@@ -9,113 +9,101 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = PetShop
 build_property.RootNamespace = PetShop
-build_property.ProjectDir = C:\Users\Manu\Desktop\Facultad\Parcial1\PetShop\
+build_property.ProjectDir = C:\Users\Manu\Desktop\Facultad\SegundoAño\HerramientasProgramacion\PetShop\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Manu\Desktop\Facultad\Parcial1\PetShop
+build_property.MSBuildProjectDirectory = C:\Users\Manu\Desktop\Facultad\SegundoAño\HerramientasProgramacion\PetShop
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Cart/index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxpbmRleC5jc2h0bWw=
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/AnimalCategory/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWFsQ2F0ZWdvcnlcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Category/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcQ3JlYXRlLmNzaHRtbA==
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/AnimalCategory/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWFsQ2F0ZWdvcnlcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Category/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Category/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Category/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Category/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcnlcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Home/Index.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Make/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFrZVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Order/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJcSW5kZXguY3NodG1s
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Make/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFrZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Product/Create.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/ProductCategory/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdENhdGVnb3J5XENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/ProductCategory/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdENhdGVnb3J5XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Product/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Product/Delete.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Product/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Product/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Product/Edit.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Product/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Product/Index.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Product/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Roles/Create.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Roles/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Roles/Index.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Roles/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Shared/Error.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Users/Details.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Users/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Users/Edit.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Users/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Users/Index.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Users/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/_ViewImports.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/_ViewStart.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Manu/Desktop/Facultad/Parcial1/PetShop/Views/Shared/_Layout.cshtml]
+[C:/Users/Manu/Desktop/Facultad/SegundoAño/HerramientasProgramacion/PetShop/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-m38xo3ciud

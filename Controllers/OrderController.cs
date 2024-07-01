@@ -10,6 +10,7 @@ using PetShop.Models;
 using PetShop.ViewModel;
 using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
+using PetShop.Interfaces;
 
 namespace PetShop.Controllers;
 
@@ -36,29 +37,9 @@ public class OrderController : Controller {
     } 
 
     [HttpPost]
-    public IActionResult CreateOrder(List<CartProduct> CartProducts)
+    public IActionResult CreateOrder()
     {
-
-        if(CartProducts != null) {
-            // List<CartProduct> cartProducts = JsonSerializer.Deserialize<List<CartProduct>>(cart);
-            Console.WriteLine("Llgue");
-
-            var order = new Order();
-            order.Date = DateTime.Now;
-            // order.Total = cartProducts.
-            _orderService.Create(order);    
-
-            return RedirectToAction("Index");
-
-        }
-
-
-        
-
-
-        // _orderService.Create(order);
-        return RedirectToAction("Index");
-        
+     throw new NotImplementedException();   
     }
 
 }
