@@ -7,6 +7,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+<style>
+    .close-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+</style>
+
 <div class="container">
     <h4 class="center-align">Agregar Categoría de Producto</h4>
     <form asp-action="Create" method="post">
@@ -15,6 +25,7 @@
             <label for="Name">Nombre</label>
         </div>
         <button type="submit" class="btn waves-effect waves-light">Guardar</button>
+        <a href="@Url.Action("Index", "ProductCategory")" class="btn grey waves-effect waves-light">Volver</a>
     </form>
 </div>
 

@@ -20,7 +20,12 @@ class AnimalCategoryService : IAnimalCategoryService
 
     List<AnimalCategory> IAnimalCategoryService.GetAll(string filter)
     {
-        throw new NotImplementedException();
+        var query = from category in _productContext.AnimalCategory select category;
+        if (!string.IsNullOrEmpty(filter)) {
+            query = query.Where(x => x.Name.Contains(filter));
+        }
+
+        return query.ToList();
     }
 
     public AnimalCategory GetById(int id)

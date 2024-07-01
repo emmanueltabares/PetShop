@@ -22,17 +22,27 @@ namespace PetShop.Controllers
             _productCategoryService = categoryService;
         }
 
-        // GET: Category
-        public IActionResult Index(string Filter)
-        {
-            var categories = _productCategoryService.GetAll();
-            var model = new ProductCategoryListViewModel() {
-                Categories = categories
-            };
-        
-            return View(model); 
-        }
+        /**
+        * GET: Category Index
+        * This method returns a view with a list of categories.
+        * If the filter parameter is not null or empty, the method will return a list of categories that match the filter.
+        */
+        public IActionResult Index(string? filter)
+		{
 
+			var categoriesListViewModel = new ProductCategoryListViewModel();
+
+			if(!string.IsNullOrEmpty(filter)) {
+				var filterCategories = _productCategoryService.GetAll(filter);
+				categoriesListViewModel.Categories = filterCategories;
+
+			} else {
+				var categories = _productCategoryService.GetAll();
+				categoriesListViewModel.Categories = categories;
+			}
+
+			return View(categoriesListViewModel);
+		}
 
         // GET: Category/Create
         public IActionResult Create()
@@ -55,6 +65,7 @@ namespace PetShop.Controllers
                 };
 
                _productCategoryService.Create(category);
+               TempData["SuccessMessage"] = "Categoría de producto agregada correctamente.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -68,8 +79,13 @@ namespace PetShop.Controllers
             
             var category = _productCategoryService.GetById(id.Value);
             if (category == null) return NotFound();
+
+            var model = new ProductCategoryEditViewModel() {
+                ProductCategoryId = category.ProductCategoryId,
+                Name = category.Name
+            };
             
-            return View(category);
+            return View(model);
         }
 
         // POST: Category/Edit/5
@@ -85,6 +101,7 @@ namespace PetShop.Controllers
                 try
                 {
                     _productCategoryService.Update(category);
+                    TempData["SuccessMessage"] = "Categoría de producto actualizada correctamente.";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -105,7 +122,12 @@ namespace PetShop.Controllers
             var category = _productCategoryService.GetById(id.Value);
             if (category == null) return NotFound();
 
-            return View(category);
+            var model = new ProductCategoryDeleteViewModel() {
+                ProductCategoryId = category.ProductCategoryId,
+                Name = category.Name
+            };
+
+            return View(model);
         }
 
         // POST: Category/Delete/5
@@ -113,7 +135,24 @@ namespace PetShop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            _productCategoryService.Delete(id);
+            var productCategory = _productCategoryService.GetById(id);
+            if(productCategory == null) return NotFound();
+            
+            try
+            {
+                _productCategoryService.Delete(id);
+                TempData["SuccessMessage"] = "Categoría eliminada correctamente.";
+            }
+            catch (DbUpdateException ex)
+            {
+                TempData["ErrorMessage"] = "No se puede eliminar la categoría porque tiene productos asociados.";
+                var model = new ProductCategoryDeleteViewModel() {
+                    ProductCategoryId = productCategory.ProductCategoryId,
+                    Name = productCategory.Name
+                };
+                return View(model);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,0 +1,127 @@
+@model PetShop.ViewModel.OrderViewModels.OrderListViewModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<style>
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .table-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .action-buttons {
+        display: inline-block;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+    .action-cell {
+        justify-content: center;
+        align-items: center;
+        padding: 8px 16px;
+        text-align: right;
+        white-space: nowrap;
+    }
+    .action-buttons a {
+        margin: 0 5px;
+        padding: 0 10px;
+        font-size: 0.8rem;
+        margin-left: 5px;
+    }
+    th, td {
+        padding: 8px 16px;
+        vertical-align: middle;
+    }
+    .close-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+</style>
+
+<div class="container">
+    <h4 class="center-align">Lista de Órdenes</h4>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="success-message" class="card-panel green lighten-4" style="padding: 10px; position: relative;">
+            <span class="green-text text-darken-4" style="margin: 0;">@TempData["SuccessMessage"]</span>
+            <span class="close-btn">&times;</span>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="error-message" class="card-panel red lighten-4" style="padding: 10px; position: relative;">
+            <span class="red-text text-darken-4" style="margin: 0;">@TempData["ErrorMessage"]</span>
+            <span class="close-btn">&times;</span>
+        </div>
+    }
+
+    <table class="table table-container table-striped">
+        <thead>
+            <tr>
+                <th>ID de Orden</th>
+                <th>Fecha de Orden</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
+                    <td>@order.TotalPrice</td>
+                    <td class="right-align">
+                        <a href="EditOrder/@order.OrderId" class="btn-small waves-effect waves-light">Editar</a>
+                        <a href="DeleteOrder/@order.OrderId" class="btn-small red waves-effect waves-light">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="center-align" style="margin-top: 20px;">
+        <a href="@Url.Action("Create", "Order")" class="btn waves-effect waves-light">Generar Orden</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Close button functionality for success message
+        var closeSuccessBtn = document.querySelector('#success-message .close-btn');
+        if (closeSuccessBtn) {
+            closeSuccessBtn.addEventListener('click', function () {
+                var successMessage = document.getElementById('success-message');
+                if (successMessage) {
+                    successMessage.style.display = 'none';
+                }
+            });
+        }
+
+        // Close button functionality for error message
+        var closeErrorBtn = document.querySelector('#error-message .close-btn');
+        if (closeErrorBtn) {
+            closeErrorBtn.addEventListener('click', function () {
+                var errorMessage = document.getElementById('error-message');
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+            });
+        }
+
+        // Timer to hide the success message
+        setTimeout(function () {
+            var successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                successMessage.style.display = 'none';
+            }
+        }, 5000); // Hide after 5 seconds
+    });
+</script>

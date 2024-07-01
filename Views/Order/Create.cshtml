@@ -1,0 +1,137 @@
+@model PetShop.ViewModel.OrderViewModels.OrderAddProductViewModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+<div class="container">
+    <h4 class="center-align">Generar Orden de Compra</h4>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="success-message" class="card-panel green lighten-4" style="padding: 10px; position: relative;">
+            <span class="green-text text-darken-4" style="margin: 0;">@TempData["SuccessMessage"]</span>
+            <span class="close-btn">&times;</span>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="error-message" class="card-panel red lighten-4" style="padding: 10px; position: relative;">
+            <span class="red-text text-darken-4" style="margin: 0;">@TempData["ErrorMessage"]</span>
+            <span class="close-btn">&times;</span>
+        </div>
+    }
+
+    <form asp-action="AddProduct" method="post" class="row">
+
+        @for (var i = 0; i < Model.OrderProducts.Count; i++)
+        {
+            <input type="hidden" name="OrderProducts[@i].ProductId" value="@Model.OrderProducts[i].ProductId" />
+            <input type="hidden" name="OrderProducts[@i].Name" value="@Model.OrderProducts[i].Name" />
+            <input type="hidden" name="OrderProducts[@i].Price" value="@Model.OrderProducts[i].Price" />
+            <input type="hidden" name="OrderProducts[@i].Quantity" value="@Model.OrderProducts[i].Quantity" />
+        }
+
+        <div class="input-field col s8">
+            <select asp-for="SelectedProductId" class="browser-default">
+                <option value="" disabled selected>Seleccionar Producto</option>
+                @foreach (var product in Model.AvailableProducts)
+                {
+                    <option value="@product.Value">@product.Text</option>
+                }
+            </select>
+            <label for="SelectedProductId">Producto</label>
+        </div>
+        <div class="input-field col s2">
+            <input asp-for="Quantity" type="number" min="1" value="1" class="validate">
+            <label for="Quantity">Cantidad</label>
+        </div>
+        <div class="input-field col s2">
+            <button type="submit" class="btn waves-effect waves-light">Agregar</button>
+        </div>
+    </form>
+
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var productItem in Model.OrderProducts)
+            {
+                <tr>
+                    <td>@productItem.Name</td>
+                    <td>@productItem.Price</td>
+                    <td>@productItem.Quantity</td>
+                    <td>@(productItem.Price * productItem.Quantity)</td>
+                    <td class="right-align">
+                        <form asp-action="RemoveProduct" method="post" style="display:inline;">
+                            <input type="hidden" name="ProductId" value="@productItem.ProductId" />
+                            @for (var i = 0; i < Model.OrderProducts.Count; i++)
+                            {
+                                <input type="hidden" name="OrderProducts[@i].ProductId" value="@Model.OrderProducts[i].ProductId" />
+                                <input type="hidden" name="OrderProducts[@i].Name" value="@Model.OrderProducts[i].Name" />
+                                <input type="hidden" name="OrderProducts[@i].Price" value="@Model.OrderProducts[i].Price" />
+                                <input type="hidden" name="OrderProducts[@i].Quantity" value="@Model.OrderProducts[i].Quantity" />
+                            }
+                            <button type="submit" class="btn-small red waves-effect waves-light">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <form asp-action="Create" method="post">
+        @for (var i = 0; i < Model.OrderProducts.Count; i++)
+        {
+            <input type="hidden" name="OrderProducts[@i].ProductId" value="@Model.OrderProducts[i].ProductId" />
+            <input type="hidden" name="OrderProducts[@i].Name" value="@Model.OrderProducts[i].Name" />
+            <input type="hidden" name="OrderProducts[@i].Price" value="@Model.OrderProducts[i].Price" />
+            <input type="hidden" name="OrderProducts[@i].Quantity" value="@Model.OrderProducts[i].Quantity" />
+        }
+        <button type="submit" class="btn waves-effect waves-light">Generar Orden</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Close button functionality for success message
+        var closeSuccessBtn = document.querySelector('#success-message .close-btn');
+        if (closeSuccessBtn) {
+            closeSuccessBtn.addEventListener('click', function () {
+                var successMessage = document.getElementById('success-message');
+                if (successMessage) {
+                    successMessage.style.display = 'none';
+                }
+            });
+        }
+
+        // Close button functionality for error message
+        var closeErrorBtn = document.querySelector('#error-message .close-btn');
+        if (closeErrorBtn) {
+            closeErrorBtn.addEventListener('click', function () {
+                var errorMessage = document.getElementById('error-message');
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+            });
+        }
+
+        // Timer to hide the success message
+        setTimeout(function () {
+            var successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                successMessage.style.display = 'none';
+            }
+        }, 5000); // Hide after 5 seconds
+    });
+</script>

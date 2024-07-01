@@ -42,11 +42,16 @@ namespace PetShop.Controllers
 		public IActionResult Index(string? filter)
 		{
 
-			var products = _productService.GetAll();
-			var productListViewModel = new ProductListViewModel
-			{
-				Products = products
-			};
+			var productListViewModel = new ProductListViewModel();
+
+			if(!string.IsNullOrEmpty(filter)) {
+				var filterProducts = _productService.GetAll(filter);
+				productListViewModel.Products = filterProducts;
+
+			} else {
+				var products = _productService.GetAll();
+				productListViewModel.Products = products;
+			}
 
 			return View(productListViewModel);
 		}
@@ -118,6 +123,7 @@ namespace PetShop.Controllers
 				};
 
 				_productService.Create(productModel);
+				TempData["SuccessMessage"] = "Producto agregado correctamente.";
 				return RedirectToAction(nameof(Index));
 			}
 			return RedirectToAction(nameof(Index));
@@ -130,10 +136,6 @@ namespace PetShop.Controllers
 
 			var product = _productService.GetById(id.Value);
 			if (product == null) return NotFound();
-
-			var productCategories = _productCategoryService.GetAll();
-			var animalCategories = _animalCategoryService.GetAll();
-			var makes = _makeService.GetAll();
 
 			var model = new ProductEditViewModel
 			{
@@ -158,10 +160,10 @@ namespace PetShop.Controllers
 			if (id != product.ProductId) return NotFound();
 			if (ModelState.IsValid)
 			{
-
 				try
 				{
 					_productService.Update(product);
+					TempData["SuccessMessage"] = "Producto actualizado correctamente.";
 				}
 				catch (DbUpdateConcurrencyException)
 				{
@@ -196,6 +198,7 @@ namespace PetShop.Controllers
 		public IActionResult DeleteConfirmed(int id)
 		{
 			_productService.Delete(id);
+			TempData["SuccessMessage"] = "Producto eliminado correctamente.";
 			return RedirectToAction(nameof(Index));
 		}
 

@@ -22,4 +22,14 @@ class OrderService : IOrderService {
     var query = from order in _context.Order select order;
     return query.ToList();
   }
+
+  public List<Order> GetAll(string filter)
+  {
+    var query = from order in _context.Order select order;
+    if (!string.IsNullOrEmpty(filter)) {
+      query = query.Where(x => x.OrderDate.ToString().Contains(filter));
+    }
+
+    return query.ToList();
+  }
 }

@@ -1,0 +1,17 @@
+@using PetShop.ViewModel;
+@model PetShop.ViewModel.MakeViewModels.MakeEditViewModel;
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<div class="container">
+    <h4 class="center-align">Editar Fabricante</h4>
+    <form asp-action="Edit" method="post">
+        <div class="input-field">
+            <input type="text" id="Name" name="Name" value="@Model.Name" required>
+            <label for="Name" class="active">Nombre</label>
+        </div>
+        <button type="submit" class="btn waves-effect waves-light">Guardar Cambios</button>
+        <a href="@Url.Action("Index", "Make")" class="btn grey waves-effect waves-light">Cancelar</a>
+    </form>
+</div>

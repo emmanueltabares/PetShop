@@ -20,7 +20,12 @@ public class MakeService : IMakeService
 
     public void Delete(int id)
     {
-        throw new System.NotImplementedException();
+         var make = GetById(id);
+
+        if (make != null){
+            _context.Remove(make);
+            _context.SaveChanges();
+        }
     }
 
     public List<Make> GetAll()
@@ -31,16 +36,23 @@ public class MakeService : IMakeService
 
     public List<Make> GetAll(string filter)
     {
-        throw new System.NotImplementedException();
+        var query = from make in _context.Make select make;
+        if (!string.IsNullOrEmpty(filter)) {
+            query = query.Where(x => x.Name.Contains(filter));
+        }
+
+        return query.ToList();
     }
 
     public Make GetById(int id)
     {
-        throw new System.NotImplementedException();
+        var query = from make in _context.Make select make;
+        return query.FirstOrDefault(m => m.MakeId == id);
     }
 
-    public void Update(Make obj)
+    public void Update(Make make)
     {
-        throw new System.NotImplementedException();
+        _context.Update(make);
+        _context.SaveChanges();
     }
 }

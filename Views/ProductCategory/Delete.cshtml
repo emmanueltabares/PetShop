@@ -1,0 +1,46 @@
+@using PetShop.ViewModel;
+@model PetShop.ViewModel.ProductCategoryViewModels.ProductCategoryDeleteViewModel;
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<style>
+    .close-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+</style>
+
+<div class="container">
+    <h4 class="center-align red-text">Eliminar Categoría de Producto</h4>
+    <p>¿Estás seguro de que deseas eliminar la categoría <strong>@Model.Name</strong>?</p>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="error-message" class="card-panel red lighten-4" style="padding: 10px; position: relative;">
+            <span class="red-text text-darken-4" style="margin: 0;">@TempData["ErrorMessage"]</span>
+            <span class="close-btn">&times;</span>
+        </div>
+    }
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="ProductCategoryId" value="@Model.ProductCategoryId" />
+        <button type="submit" class="btn red waves-effect waves-light">Eliminar</button>
+        <a href="@Url.Action("Index", "ProductCategory")" class="btn grey waves-effect waves-light">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    var closeErrorBtn = document.querySelector('#error-message .close-btn');
+    if (closeErrorBtn) {
+        closeErrorBtn.addEventListener('click', function () {
+            var errorMessage = document.getElementById('error-message');
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+            }
+        });
+    }
+</script>

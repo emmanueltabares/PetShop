@@ -5,4 +5,5 @@ public interface IOrderService
 {
     void Create(Order order);
     List<Order> GetAll();
+    List<Order> GetAll(string filter);
 }

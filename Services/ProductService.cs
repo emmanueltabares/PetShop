@@ -31,8 +31,12 @@ class ProductService : IProductService {
     public List<Product> GetAll(string filter)
     {
         var query = from product in _productContext.Product select product;
+
         if (!string.IsNullOrEmpty(filter)) {
-        query = query.Where(x => x.Name.Contains(filter));
+            query = query.Where(x => x.Name.Contains(filter))
+                .Include(p => p.ProductCategory)
+                .Include(p => p.AnimalCategory)
+                .Include(p => p.Make);
         }
 
         return query.ToList();
@@ -53,7 +57,7 @@ class ProductService : IProductService {
     public Product? GetById(int id)
     {
         var query = from product in _productContext.Product select product;
-        return query.Include(x=> x.ProductCategory).FirstOrDefault(m => m.ProductId == id);
+        return query.FirstOrDefault(m => m.ProductId == id);
     }
 
     public void Update(Product obj)

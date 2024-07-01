@@ -51,6 +51,7 @@ namespace PetShop.Controllers
                     Name = model.Name
                 };
                 _animalCategoryService.Create(animalCategoryModel);
+                TempData["SuccessMessage"] = "Categoría de animal agregada correctamente.";
                 return RedirectToAction("Index");
             }
 
@@ -61,44 +62,76 @@ namespace PetShop.Controllers
         {
             if (id == null) return NotFound();
 
-            var product =  _animalCategoryService.GetById(id.Value);
-            if (product == null) return NotFound();
-            // ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "Id", product.CategoryId);
-            return View(product);
+            var category =  _animalCategoryService.GetById(id.Value);
+            if (category == null) return NotFound();
+
+            var model = new AnimalCategoryEditViewModel()
+            {
+                AnimalCategoryId = category.AnimalCategoryId,
+                Name = category.Name
+            };
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(AnimalCategoryEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = new AnimalCategory()
+                {
+                    AnimalCategoryId = model.AnimalCategoryId,
+                    Name = model.Name
+                };
+
+                _animalCategoryService.Update(category);
+                TempData["SuccessMessage"] = "Categoría de animal actualizada correctamente.";
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
 
         public IActionResult Delete(int id)
         {
             var category = _animalCategoryService.GetById(id);
 
-            if (category == null)
+            if (category == null) return NotFound();
+            var model = new AnimalCategoryDeleteViewModel
             {
-                return NotFound();
-            }
+                AnimalCategoryId = category.AnimalCategoryId,
+                Name = category.Name
+            };
 
-            // var viewModel = new AnimalCategoryDeleteViewModel
-            // {
-            //     AnimalCategoryId = category.AnimalCategoryId,
-            //     Name = category.Name
-            // };
-
-            return View("Index");
+            return View(model);
         }
 
-            // POST: AnimalCategory/Delete/5
+        // POST: AnimalCategory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var category = _animalCategoryService.GetById(id);
-
-            if (category == null)
+            var animalCategory = _animalCategoryService.GetById(id);
+            if(animalCategory == null) return NotFound();
+            
+            try
             {
-                return NotFound();
+                _animalCategoryService.Delete(id);
+                TempData["SuccessMessage"] = "Categoría eliminada correctamente.";
+            }
+            catch (DbUpdateException ex)
+            {
+                TempData["ErrorMessage"] = "No se puede eliminar la categoría porque tiene productos asociados.";
+                var model = new AnimalCategoryDeleteViewModel() {
+                    AnimalCategoryId = animalCategory.AnimalCategoryId,
+                    Name = animalCategory.Name
+                };
+                return View(model);
             }
 
-            _animalCategoryService.Delete(id);
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }
