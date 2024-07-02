@@ -1,4 +1,4 @@
-@model PetShop.ViewModel.OrderViewModels.OrderListViewModel
+@model PetShop.ViewModel.OrderViewModels.OrderDetailsViewModel
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -42,10 +42,11 @@
         right: 10px;
         font-size: 18px;
     }
+    .a 
 </style>
 
 <div class="container">
-    <h4 class="center-align">Lista de Órdenes</h4>
+    <h4 class="center-align">Detalle de Orden</h4>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -63,43 +64,38 @@
         </div>
     }
 
+    <div class="row">
+        <div class="col s12">
+            <div class="card-panel teal">
+                <span class="white-text">Orden creada por: @Model.UserName</span>
+            </div>
+        </div>
+    </div>
+
     <table class="table table-container table-striped">
         <thead>
             <tr>
-                <th>ID de Orden</th>
-                <th>Fecha de Orden</th>
-                <th>Fecha de Despacho</th>
-                <th>Total</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var order in Model.Orders)
+            @foreach (var product in Model.OrderProducts)
             {
                 <tr>
-                    <td>@order.OrderId</td>
-                    <td>@order.OrderDate</td>
-                    <td>
-                        @if(@order.ShippingDate != null) {
-                            @order.ShippingDate
-                        } else {
-                            <span class="red-text">- En Proceso -</span>
-                        }
-                    </td>
-                    <td>$@order.TotalPrice</td>
-                    <td class="right-align">
-                        <a href="@Url.Action("Details", "Order", new { id = order.OrderId })" class="btn-small blue waves-effect waves-light">Detalle</a>
-                        <a href="Edit/@order.OrderId" class="btn-small waves-effect waves-light">Editar</a>
-                        <a href="Delete/@order.OrderId" class="btn-small red waves-effect waves-light">Eliminar</a>
-                    </td>
+                    <td>@product.Name</td>
+                    <td>@product.Quantity</td>
+                    <td>$@product.Price</td>
                 </tr>
             }
         </tbody>
     </table>
 
-    <div class="center-align" style="margin-top: 20px;">
-        <a href="@Url.Action("Create", "Order")" class="btn waves-effect waves-light">Generar Orden</a>
-    </div>
+    <a href="@Url.Action("Index", "Order")" class="btn grey waves-effect waves-light" style="margin-top: 8px; align-items: right: inherit;";">Volver</a>
+    
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

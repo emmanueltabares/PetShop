@@ -10,7 +10,7 @@ using PetShop.Data;
 
 namespace PetShop.Migrations
 {
-    [DbContext(typeof(ProductContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230613211717_AddStockPropToProductEntity")]
     partial class AddStockPropToProductEntity
     {

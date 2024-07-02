@@ -5,9 +5,9 @@ using PetShop.Interfaces;
 
 class ProductCategoryService : IProductCategoryService
 {
-    private readonly ProductContext _productContext;
+    private readonly ApplicationDbContext _productContext;
 
-    public ProductCategoryService(ProductContext productContext)
+    public ProductCategoryService(ApplicationDbContext productContext)
     {
         _productContext = productContext;
     }

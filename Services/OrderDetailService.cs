@@ -4,9 +4,9 @@ using PetShop.Models;
 
 class OrderDetailService : IOrderDetailService {
 
-  private readonly ProductContext _context;
+  private readonly ApplicationDbContext _context;
 
-  public OrderDetailService(ProductContext context)
+  public OrderDetailService(ApplicationDbContext context)
   {
     _context = context;
   }

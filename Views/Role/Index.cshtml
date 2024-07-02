@@ -1,5 +1,5 @@
-@using PetShop.ViewModel;
-@model PetShop.ViewModel.ProductViewModels.ProductListViewModel;
+@using Microsoft.AspNetCore.Identity
+@model PetShop.ViewModel.RoleViewModels.RoleListViewModel
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -46,11 +46,11 @@
 </style>
 
 <div class="container">
-    <h4 class="center-align">Listado de Productos</h4>
+    <h4 class="center-align">Listado de Roles</h4>
 
     <div class="row mb-3">
         <div class="col-md-6">
-            <form asp-controller="Product" asp-action="Index" method="get" class="form-inline">
+            <form asp-controller="Role" asp-action="Index" method="get" class="form-inline">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Buscar por nombre" aria-label="Buscar por nombre" aria-describedby="basic-addon2" name="filter" value="@Model.Filter">
                 </div>
@@ -58,11 +58,6 @@
                     <button class="btn btn-outline-secondary" type="submit">Buscar</button>
                 </div>
             </form>
-        </div>
-    </div>
-    <div class="action-cell">
-        <div class="action-buttons">
-            <a href="@Url.Action("Create", "Product")" class="btn waves-effect waves-light">Agregar Producto</a>
         </div>
     </div>
 
@@ -76,33 +71,22 @@
 
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-striped table-container responsive-table">
+            <table class="table table-container table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        @* <th>ID</th> *@
                         <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Fabricante</th>
-                        <th>Categoría de Producto</th>
-                        <th>Categoría de Animal</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var product in Model.Products)
+                    @foreach (var role in Model.Roles)
                     {
                         <tr>
-                            <td>@product.ProductId</td>
-                            <td>@product.Name</td>
-                            <td>@product.Price</td>
-                            <td>@product.Stock</td>
-                            <td>@product.Make.Name</td>
-                            <td>@product.ProductCategory.Name</td>
-                            <td>@product.AnimalCategory.Name</td>
+                            @* <td>@role.Id</td> *@
+                            <td>@role.Name</td>
                             <td class="action-cell">
                                 <div class="action-buttons">
-                                    <a href="@Url.Action("Edit", "Product", new { id = product.ProductId })" class="btn-small waves-effect waves-light">Editar</a>
-                                    <a href="@Url.Action("Delete", "Product", new { id = product.ProductId })" class="btn-small red waves-effect waves-light">Eliminar</a>
+                                    <a asp-controller="Role" asp-action="Delete" asp-route-id="@role.Id" class="btn-small red waves-effect waves-light">Eliminar</a>
                                 </div>
                             </td>
                         </tr>
@@ -111,6 +95,11 @@
             </table>
         </div>
     </div>
+
+    <div class="center-align">
+        <a asp-controller="Role" asp-action="Create" class="btn waves-effect waves-light">Agregar nuevo rol</a>
+    </div>
+
 </div>
 
 <script>
@@ -133,3 +122,4 @@
         }, 2000);
     });
 </script>
+

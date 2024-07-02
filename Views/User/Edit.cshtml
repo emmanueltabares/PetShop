@@ -1,0 +1,85 @@
+@using Microsoft.AspNetCore.Identity;
+@model PetShop.ViewModel.UserViewModels.UserEditViewModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<style>
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .table-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .action-buttons {
+        display: inline-block;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+    .action-cell {
+        justify-content: center;
+        align-items: center;
+        padding: 8px 16px;
+        text-align: right;
+        white-space: nowrap;
+    }
+    .action-buttons a {
+        margin: 0 5px;
+        padding: 0 10px;
+        font-size: 0.8rem;
+        margin-left: 5px;
+    }
+    th, td {
+        padding: 8px 16px;
+        vertical-align: middle;
+    }
+    .close-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+</style>
+
+<div class="container">
+    <h4 class="center-align">Editar Usuario</h4>
+    <form asp-action="EditConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="input-field">
+            <input type="text" id="UserName" name="UserName" value="@Model.UserName" required>
+            <label for="UserName" class="active">Nombre de usuario</label>
+            <span asp-validation-for="UserName" class="text-danger"> * Campo Requerido </span>
+        </div>
+        <div class="input-field">
+            <input type="number" id="Phone" name="Phone" value="@Model.Phone">
+            <label for="Phone" class="active">Telefono</label>
+        </div>
+        <div class="input-field">
+            <select id="RoleId" name="RoleId" asp-for="RoleId">
+                <option value="@Model.RoleId" select disabled>@Model.Role</option>
+                @foreach (var role in Model.Roles)
+                {
+                    <option value="@role.Value">@role.Text</option>
+                }
+            </select>
+            <label for="RoleId">Rol</label>
+        </div>
+        <button type="submit" class="btn waves-effect waves-light">Guardar Cambios</button>
+        <a href="@Url.Action("Index", "User")" class="btn grey waves-effect waves-light">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

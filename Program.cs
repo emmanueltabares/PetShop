@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PetShop.Data;
 using PetShop.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<ProductContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("ProductContext") ?? throw new InvalidOperationException("Connection string 'ProductContext' not found.")));
 
 builder.Services.AddDefaultIdentity<IdentityUser>()
 .AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<ProductContext>();
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

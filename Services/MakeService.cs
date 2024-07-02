@@ -6,9 +6,9 @@ using PetShop.ViewModel;
 public class MakeService : IMakeService
 {
 
-    private readonly ProductContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public MakeService(ProductContext productContext)
+    public MakeService(ApplicationDbContext productContext)
     {
         _context = productContext;
     }

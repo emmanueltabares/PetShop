@@ -12,6 +12,7 @@ using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
 using PetShop.Interfaces;
 using PetShop.ViewModel.OrderViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace PetShop.Controllers;
 
@@ -20,17 +21,20 @@ public class OrderController : Controller {
     private readonly IOrderService _orderService;
     private readonly IProductService _productService;
     private readonly IOrderDetailService _orderDetailService;
+    private readonly UserManager<IdentityUser> _userManager;
 
 
     public OrderController(
         IOrderService orderService,
         IProductService productService,
-        IOrderDetailService orderDetailService
+        IOrderDetailService orderDetailService,
+        UserManager<IdentityUser> userManager
     )
     {
         _orderService = orderService;
         _productService = productService;
         _orderDetailService = orderDetailService;
+        _userManager = userManager;
     }
 
     public IActionResult Index(string? filter)
@@ -115,16 +119,17 @@ public class OrderController : Controller {
     public IActionResult Create(OrderCreateViewModel orderModel)
     {
 
-        orderModel.UserId = 1;
-
         if(ModelState.IsValid) {
+
+            var loggedInUser = _userManager.GetUserAsync(User);
+            if(loggedInUser.Result == null) return NotFound();
 
             var totalProductsInOrder = orderModel.OrderProducts.Sum(x => x.Quantity);
             var totalPrice = orderModel.OrderProducts.Sum(x => x.Price * x.Quantity);
 
             var order = new Order() {
-                UserId = orderModel.UserId.ToString(),
-                OrderDate = new DateTime(), // new DateTime().GetDateTimeFormats().ToString(),
+                UserId = loggedInUser.Result.Id,
+                OrderDate = DateTime.Now.ToString("dd/MM/yyyy"), // new DateTime().GetDateTimeFormats().ToString(),
                 TotalProducts = totalProductsInOrder,
                 TotalPrice = (decimal)totalPrice,
             };
@@ -146,4 +151,21 @@ public class OrderController : Controller {
         return View(orderModel);
     }
 
+    [HttpGet]
+    public IActionResult Details(int id)
+    {
+        var order = _orderService.GetById(id);
+        if(order == null) return NotFound();
+
+        var model = new OrderDetailsViewModel(){};
+        model.OrderProducts = order.OrderDetails.Select(x => new OrderProductViewModel {
+            ProductId = x.ProductId,
+            Name = x.Product.Name,
+            Price = x.Product.Price,
+            Quantity = x.Quantity
+        }).ToList();
+
+        model.UserName = order.User.UserName;
+        return View(model);
+    }
 }

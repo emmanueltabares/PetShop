@@ -10,7 +10,7 @@ using PetShop.Data;
 
 namespace PetShop.Migrations
 {
-    [DbContext(typeof(ProductContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230711013027_UpdateOrderModel")]
     partial class UpdateOrderModel
     {

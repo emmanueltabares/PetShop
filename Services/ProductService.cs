@@ -5,9 +5,9 @@ using PetShop.Models;
 
 class ProductService : IProductService {
 
-    private readonly ProductContext _productContext;
+    private readonly ApplicationDbContext _productContext;
 
-    public ProductService(ProductContext productContext)
+    public ProductService(ApplicationDbContext productContext)
     {
         _productContext = productContext;
     }

@@ -1,12 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using PetShop.Data;
 using PetShop.Interfaces;
 using PetShop.Models;
 
 class OrderService : IOrderService {
 
-  private readonly ProductContext _context;
+  private readonly ApplicationDbContext _context;
 
-  public OrderService(ProductContext context)
+  public OrderService(ApplicationDbContext context)
   {
     _context = context;
   }
@@ -32,4 +33,15 @@ class OrderService : IOrderService {
 
     return query.ToList();
   }
+
+  public Order GetById(int id)
+  {
+    var query = from order in _context.Order select order;
+    return query
+      .Include(x => x.User)
+      .Include(x => x.OrderDetails)
+      .ThenInclude(od => od.Product)
+      .FirstOrDefault(x => x.OrderId == id);
+  }
+
 }
