@@ -52,12 +52,6 @@ namespace PetShop.Data
                 .WithMany()
                 .HasForeignKey(ur => ur.RoleId)
                 .OnDelete(DeleteBehavior.Restrict);
-            // // Configuración para que al eliminar un usuario se eliminen sus relaciones con roles
-            // modelBuilder.Entity<IdentityUserRole<string>>()
-            //     .HasOne<IdentityUser>()
-            //     .WithMany()
-            //     .HasForeignKey(ur => ur.UserId)
-            //     .OnDelete(DeleteBehavior.Cascade);   
 
             base.OnModelCreating(modelBuilder);
 

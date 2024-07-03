@@ -168,4 +168,33 @@ public class OrderController : Controller {
         model.UserName = order.User.UserName;
         return View(model);
     }
+
+    public IActionResult Delete(int id)
+    {
+        var order = _orderService.GetById(id);
+        if(order == null) return NotFound();
+
+        var model = new OrderDeleteViewModel(){
+            OrderId = order.OrderId
+        };
+
+        return View(model);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public IActionResult DeleteConfirmed(OrderDeleteViewModel model)
+    {
+        var order = _orderService.GetById(model.OrderId);
+        if(order == null) return NotFound();
+
+        try {
+            _orderService.Delete(order.OrderId);
+            TempData["SuccessMessage"] = "Orden de compra eliminada correctamente.";
+            return RedirectToAction("Index");
+        }
+        catch (System.Exception ex) {
+            TempData["ErrorMessage"] = "No se puede eliminar la orden de compra.";
+            return RedirectToAction("Delete", new { id = model.OrderId });
+        }
+    }
 }

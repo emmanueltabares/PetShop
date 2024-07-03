@@ -4,6 +4,47 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
+<style>
+    .container {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .table-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .action-buttons {
+        display: inline-block;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+    }
+    .action-cell {
+        justify-content: center;
+        align-items: center;
+        padding: 8px 16px;
+        text-align: right;
+        white-space: nowrap;
+    }
+    .action-buttons a {
+        margin: 0 5px;
+        padding: 0 10px;
+        font-size: 0.8rem;
+        margin-left: 5px;
+    }
+    th, td {
+        padding: 8px 16px;
+        vertical-align: middle;
+    }
+    .close-btn {
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+    }
+</style>
+
 
 <div class="container">
     <h4 class="center-align">Generar Orden de Compra</h4>
@@ -35,7 +76,7 @@
         }
 
         <div class="input-field col s8">
-            <select asp-for="SelectedProductId" class="browser-default">
+            <select id="SelectedProductId" name="SelectedProductId">
                 <option value="" disabled selected>Seleccionar Producto</option>
                 @foreach (var product in Model.AvailableProducts)
                 {
@@ -67,7 +108,7 @@
             {
                 <tr>
                     <td>@productItem.Name</td>
-                    <td>@productItem.Price</td>
+                    <td>$@productItem.Price</td>
                     <td>@productItem.Quantity</td>
                     <td>@(productItem.Price * productItem.Quantity)</td>
                     <td class="right-align">
@@ -90,6 +131,18 @@
         </tbody>
     </table>
 
+    <hr />
+
+    <table class="striped">
+        <tbody>
+            <tr>
+                <td >Total</td>
+                <td class="right-align">$@(Model.TotalPrice != null ? Model.TotalPrice : "0")</td>
+            </tr>
+        </tbody>
+    </table>
+    
+
     <form asp-action="Create" method="post">
         @for (var i = 0; i < Model.OrderProducts.Count; i++)
         {
@@ -98,12 +151,16 @@
             <input type="hidden" name="OrderProducts[@i].Price" value="@Model.OrderProducts[i].Price" />
             <input type="hidden" name="OrderProducts[@i].Quantity" value="@Model.OrderProducts[i].Quantity" />
         }
-        <button type="submit" class="btn waves-effect waves-light">Generar Orden</button>
+        <button type="submit" class="btn waves-effect waves-light" style="margin-top: 8px; align-items: right: inherit;">Confirmar</button>
+        <a href="@Url.Action("Index", "Order")" class="btn grey waves-effect waves-light" style="margin-top: 8px; align-items: right: inherit;">Volver</a>
     </form>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+
         // Close button functionality for success message
         var closeSuccessBtn = document.querySelector('#success-message .close-btn');
         if (closeSuccessBtn) {

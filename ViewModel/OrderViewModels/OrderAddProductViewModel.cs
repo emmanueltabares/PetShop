@@ -11,5 +11,6 @@ public class OrderAddProductViewModel {
     public List<SelectListItem> AvailableProducts { get; set; } = new List<SelectListItem>();
     public int SelectedProductId { get; set; }
     public int Quantity { get; set; }
+    public float TotalPrice => OrderProducts.Sum(x => x.Price * x.Quantity);
 
 }   

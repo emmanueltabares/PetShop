@@ -1,0 +1,18 @@
+@using PetShop.ViewModel;
+@model PetShop.ViewModel.UserViewModels.UserDeleteViewModel;
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<div class="container">
+    <h4 class="center-align red-text">Eliminar Usuario</h4>
+    <p>¿Estás seguro de que deseas eliminar el usuario <strong>@Model.Email</strong>?</p>
+    <p>Eliminará todos los datos relacionados al usuario, esto puede incluir ordenes de compra asociados. Revise cuidadósamente los datos.</p>
+    <p><strong>Esta acción no se puede deshacer.</strong></p>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <button type="submit" class="btn red waves-effect waves-light">Eliminar</button>
+        <a href="@Url.Action("Index", "User")" class="btn grey waves-effect waves-light">Cancelar</a>
+    </form>
+</div>

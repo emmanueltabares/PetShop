@@ -52,27 +52,39 @@
             <label for="UserName">Nombre de usuario</label>
         </div>
         <div class="input-field">
-            <select id="RoleId" name="RoleId">
-                <option value="" disabled selected>Seleccione un rol</option>
-                @foreach (var rol in Model.Roles)
-                {
-                    <option value="@rol.Value">@rol.Text</option>
-                }
-            </select>
-            <label for="RoleId">Rol de usuario</label>
-        </div>
         <div class="input-field">
-            <input type="email" id="Email" name="Email">
+            <input type="email" id="Email" name="Email" required>
             <label for="Email">Email</label>
         </div>
         <div class="input-field">
             <input type="number" id="Phone" name="Phone"></input>
             <label for="Phone">Teléfono</label>
         </div>
+        <div class="input-field">
+            <input type="text" id="Password" name="Password" required></input>
+        <label for="Password">Contraseña</label>
+        </div>
+        <div class="input-field">
+            <select id="RoleId" name="RoleId" asp-for="RoleId">
+                <option value="" select disabled>Seleccione un rol</option>
+                @foreach (var role in Model.Roles)
+                {
+                    <option value="@role.Value">@role.Text</option>
+                }
+            </select>
+            <label for="RoleId">Rol</label>
+        </div>
         <button type="submit" class="btn waves-effect waves-light">Guardar</button>
         <a href="@Url.Action("Index", "User")" class="btn grey waves-effect waves-light">Volver</a>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

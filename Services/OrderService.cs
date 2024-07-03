@@ -44,4 +44,14 @@ class OrderService : IOrderService {
       .FirstOrDefault(x => x.OrderId == id);
   }
 
+  public void Delete (int id)
+  {
+    var obj = GetById(id);
+
+    if (obj != null) {
+        _context.Remove(obj);
+        _context.SaveChanges();
+    }
+  } 
+
 }

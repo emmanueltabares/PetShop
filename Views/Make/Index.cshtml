@@ -59,6 +59,15 @@
             </form>
         </div>
     </div>
+    <div class="action-cell">
+        <div class="action-buttons">
+            @* <a href="@Url.Action("Create", "Product")" class="btn waves-effect waves-light">Agregar Producto</a> *@
+            <a asp-controller="Make" asp-action="Create" class="btn waves-effect waves-light">Agregar Fabricante</a>
+        </div>
+    </div>
+
+        <div class="center-align">
+    </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -73,7 +82,6 @@
             <table class="table table-container table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                     </tr>
                 </thead>
@@ -81,7 +89,6 @@
                     @foreach (var make in Model.Makes)
                     {
                         <tr>
-                            <td>@make.MakeId</td>
                             <td>@make.Name</td>
                             <td class="action-cell">
                                 <div class="action-buttons">
@@ -94,9 +101,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="center-align">
-        <a asp-controller="Make" asp-action="Create" class="btn waves-effect waves-light">Agregar Fabricante</a>
     </div>
 </div>
 

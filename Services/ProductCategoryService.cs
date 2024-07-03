@@ -20,11 +20,15 @@ class ProductCategoryService : IProductCategoryService
 
     public void Delete(int id)
     {
-         var category = GetById(id);
+        try {
+            var category = GetById(id);
 
-        if (category != null){
-            _productContext.Remove(category);
-            _productContext.SaveChanges();
+            if (category != null){
+                _productContext.Remove(category);
+                _productContext.SaveChanges();
+            }
+        } catch {
+            throw new DbUpdateException();
         }
     }
 

@@ -59,6 +59,14 @@
             </form>
         </div>
     </div>
+    <div class="action-cell">
+        <div class="action-buttons">
+            <a asp-controller="ProductCategory" asp-action="Create" class="btn waves-effect waves-light">Agregar Categoría</a>
+        </div>
+    </div>
+    
+    <div class="center-align">
+    </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -73,7 +81,6 @@
             <table class="table table-container table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                     </tr>
                 </thead>
@@ -81,7 +88,6 @@
                     @foreach (var category in Model.Categories)
                     {
                         <tr>
-                            <td>@category.ProductCategoryId</td>
                             <td>@category.Name</td>
                             <td class="action-cell">
                                 <div class="action-buttons">
@@ -95,11 +101,6 @@
             </table>
         </div>
     </div>
-
-    <div class="center-align">
-        <a asp-controller="ProductCategory" asp-action="Create" class="btn waves-effect waves-light">Agregar Categoría</a>
-    </div>
-
 </div>
 
 <script>

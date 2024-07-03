@@ -7,4 +7,5 @@ public interface IOrderService
     List<Order> GetAll();
     List<Order> GetAll(string filter);
     Order GetById(int id);
+    void Delete(int id);
 }

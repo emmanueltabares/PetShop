@@ -4,8 +4,9 @@ namespace PetShop.ViewModel.UserViewModels;
 public class UserListViewModel
 {
     public List<UserViewModel> Users { get; set; } = new List<UserViewModel>();
-
+    public string LoggedInUserId { get; set; }
     public string? Filter { get; set; }
+
 }
 
 public class UserViewModel

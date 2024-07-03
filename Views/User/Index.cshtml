@@ -43,6 +43,10 @@
         right: 10px;
         font-size: 18px;
     }
+     .btn-danger:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
 </style>
 
 <div class="container">
@@ -60,6 +64,11 @@
             </form>
         </div>
     </div>
+    <div class="action-cell">
+        <div class="action-buttons">
+            <a asp-controller="User" asp-action="Create" class="btn waves-effect waves-light">Agregar nuevo usuario</a>
+        </div>
+    </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -74,7 +83,6 @@
             <table class="table table-container table-striped">
                 <thead>
                     <tr>
-                        @* <th>ID</th> *@
                         <th>Email</th>
                         <th>Nombre de Usuario</th>
                         <th>Rol Asignado</th>
@@ -84,14 +92,13 @@
                     @foreach (var user in Model.Users)
                     {
                         <tr>
-                            @* <td>@user.Id</td> *@
                             <td>@user.Email</td>
                             <td>@user.UserName</td>
                             <td>@user.Role</td>
                             <td class="action-cell">
                                 <div class="action-buttons">
                                     <a href="@Url.Action("Edit", "User", new { id = user.Id })" class="btn-small waves-effect waves-light">Editar</a>
-                                    <a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" class="btn-small red waves-effect waves-light">Eliminar</a>
+                                    <a href="@Url.Action("Delete", "User", new { id = user.Id })" class="btn-small red waves-effect waves-light @(user.Id == Model.LoggedInUserId ? "disabled" : "")">Eliminar</a>
                                 </div>
                             </td>
                         </tr>
@@ -100,11 +107,6 @@
             </table>
         </div>
     </div>
-
-    <div class="center-align">
-        <a asp-controller="User" asp-action="Create" class="btn waves-effect waves-light">Agregar nuevo usuario</a>
-    </div>
-
 </div>
 
 <script>

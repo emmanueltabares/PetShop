@@ -60,6 +60,11 @@
             </form>
         </div>
     </div>
+    <div class="action-cell">
+        <div class="action-buttons">
+            <a asp-controller="Role" asp-action="Create" class="btn waves-effect waves-light">Agregar nuevo rol</a>
+        </div>
+    </div>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -74,7 +79,6 @@
             <table class="table table-container table-striped">
                 <thead>
                     <tr>
-                        @* <th>ID</th> *@
                         <th>Nombre</th>
                     </tr>
                 </thead>
@@ -82,7 +86,6 @@
                     @foreach (var role in Model.Roles)
                     {
                         <tr>
-                            @* <td>@role.Id</td> *@
                             <td>@role.Name</td>
                             <td class="action-cell">
                                 <div class="action-buttons">
@@ -95,11 +98,6 @@
             </table>
         </div>
     </div>
-
-    <div class="center-align">
-        <a asp-controller="Role" asp-action="Create" class="btn waves-effect waves-light">Agregar nuevo rol</a>
-    </div>
-
 </div>
 
 <script>

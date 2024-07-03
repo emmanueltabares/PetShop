@@ -32,6 +32,7 @@ public class UserController : Controller
         _context = context;
     }
 
+    // [Authorize("Administrador")]
     public IActionResult Index(string? filter)
     {
         var userModel = new UserListViewModel() {};
@@ -45,6 +46,8 @@ public class UserController : Controller
                 Email = u.Email,
                 Role = _userManager.GetRolesAsync(u).Result.FirstOrDefault() ?? string.Empty
             }).ToList();
+
+            userModel.LoggedInUserId = _userManager.GetUserAsync(User).Result.Id;
             
             return View(userModel);
         } else {
@@ -56,7 +59,57 @@ public class UserController : Controller
                 Role = _userManager.GetRolesAsync(u).Result.FirstOrDefault() ?? string.Empty
             }).ToList();
             
+            userModel.LoggedInUserId = _userManager.GetUserAsync(User).Result.Id;
             return View(userModel);
+        }
+    }
+
+    // [Authorize]
+    public IActionResult Create()
+    {
+        var userViewModel = new UserCreateViewModel
+        {
+            Roles = _roleManager.Roles.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.Id.ToString()
+            }).ToList()
+        };
+
+        return View(userViewModel);
+    }
+
+    // [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Create(UserCreateViewModel model)
+    {
+        if(!ModelState.IsValid) return View(model);
+
+        var user = new IdentityUser {
+            Email = model.Email,
+            PhoneNumber = model.Phone,
+        };
+
+        var normalizedUserName = string.Concat(model.UserName.Split(' ').Select(word =>
+            CultureInfo.CurrentCulture.TextInfo.ToTitleCase(word.ToLower())));
+        
+        user.UserName = normalizedUserName;
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if(result.Succeeded) {
+
+            if(!string.IsNullOrEmpty(model.RoleId)) {
+                var role = await _roleManager.FindByIdAsync(model.RoleId.ToString());
+                if(role != null) {
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                }
+            }
+
+            TempData["SuccessMessage"] = "Usuario creado correctamente";
+            return RedirectToAction(nameof(Index));
+        } else {
+            TempData["ErrorMessage"] = "No se pudo crear el usuario";
+            return View(model);
         }
     }
 
@@ -145,8 +198,7 @@ public class UserController : Controller
             return View(userDetailviewModel);
         }
 
-    // [Authorize(Roles = "Administrador")]
-    // [HttpPost]
+    // [Authorize]
     public async Task<IActionResult> Delete(string? id)
         {
             if (id == null) return NotFound();
@@ -154,8 +206,33 @@ public class UserController : Controller
             var user = await _userManager.FindByIdAsync(id);
             if (user == null) return View();
 
-            await _userManager.DeleteAsync(user);
+            var userViewModel = new UserDeleteViewModel() {
+                Id = user.Id,
+                Email = user.Email,
+            };
 
-            return View("index");
+            return View(userViewModel);
+        }
+
+    [Authorize(Roles = "Administrador")]
+    [HttpPost, ActionName("Delete")]
+    public async Task<IActionResult> DeleteConfirmed(string? id)
+        {
+            if (id == null) return NotFound();
+            
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null) return View();
+
+            try {
+                await _userManager.DeleteAsync(user);
+                return View("index");
+            } catch (Exception) {
+
+                var errorViewModel = new ErrorViewModel() {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                };
+
+                return View(errorViewModel);
+            }
         }
 }
