@@ -1,4 +1,4 @@
-@model PetShop.ViewModel.OrderViewModels.OrderAddProductViewModel
+@model PetShop.ViewModel.OrderViewModels.OrderEditProductViewModel
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -47,7 +47,7 @@
 
 
 <div class="container">
-    <h4 class="center-align">Generar Orden de Compra</h4>
+    <h4 class="center-align">Actualizar Orden de Compra</h4>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -65,8 +65,8 @@
         </div>
     }
 
-    <form asp-action="AddProduct" method="post" class="row">
-
+    <form asp-action="AddProductOnEditOrder" method="post" class="row">
+        <input type="hidden" name="OrderId" value="@Model.OrderId" />
         @for (var i = 0; i < Model.OrderProducts.Count; i++)
         {
             <input type="hidden" name="OrderProducts[@i].ProductId" value="@Model.OrderProducts[i].ProductId" />
@@ -112,8 +112,9 @@
                     <td>@productItem.Quantity</td>
                     <td>$@(productItem.Price * productItem.Quantity)</td>
                     <td class="right-align">
-                        <form asp-action="RemoveProduct" method="post" style="display:inline;">
+                        <form asp-action="RemoveProductOnEditOrder" method="post" style="display:inline;">
                             <input type="hidden" name="ProductId" value="@productItem.ProductId" />
+                            <input type="hidden" name="OrderId" value="@Model.OrderId" />
                             @for (var i = 0; i < Model.OrderProducts.Count; i++)
                             {
                                 <input type="hidden" name="OrderProducts[@i].ProductId" value="@Model.OrderProducts[i].ProductId" />
@@ -143,7 +144,7 @@
     </table>
     
 
-    <form asp-action="Create" method="post">
+    <form asp-action="Edit" method="post">
         @for (var i = 0; i < Model.OrderProducts.Count; i++)
         {
             <input type="hidden" name="OrderProducts[@i].ProductId" value="@Model.OrderProducts[i].ProductId" />
@@ -151,7 +152,8 @@
             <input type="hidden" name="OrderProducts[@i].Price" value="@Model.OrderProducts[i].Price" />
             <input type="hidden" name="OrderProducts[@i].Quantity" value="@Model.OrderProducts[i].Quantity" />
         }
-        <button type="submit" class="btn waves-effect waves-light" style="margin-top: 8px; align-items: right: inherit;">Confirmar</button>
+        <input type="hidden" name="OrderId" value="@Model.OrderId" />
+        <button type="submit" class="btn waves-effect waves-light" style="margin-top: 8px; align-items: right: inherit;">Actualizar</button>
         <a href="@Url.Action("Index", "Order")" class="btn grey waves-effect waves-light" style="margin-top: 8px; align-items: right: inherit;">Volver</a>
     </form>
 </div>

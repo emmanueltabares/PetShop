@@ -22,6 +22,12 @@ builder.Services.AddScoped<IAnimalCategoryService, AnimalCategoryService>();
 builder.Services.AddScoped<IMakeService, MakeService>();
 builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromDays(30); // Ejemplo: expira en 30 días
+    options.SlidingExpiration = true; // Renovar la cookie en cada solicitud
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +37,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

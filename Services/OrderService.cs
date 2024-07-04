@@ -54,4 +54,23 @@ class OrderService : IOrderService {
     }
   } 
 
+  public void Update(Order order)
+  {
+    _context.Update(order);
+    _context.SaveChanges();
+  }
+
+  public void Dispatch(int id)
+  {
+    try {
+      var order = GetById(id) ?? throw new Exception();
+      order.ShippingDate = DateTime.Now.ToString("dd/MM/yyyy");
+      _context.Update(order);
+      _context.SaveChanges();
+
+    } catch {
+      throw new Exception();
+    }
+  }
+
 }

@@ -10,7 +10,7 @@
     <p><strong>Esta acción no se puede deshacer.</strong></p>
 
     <form asp-action="Delete" method="post">
-        <input type="hidden" name="ProductId" value="@Model.OrderId" />
+        <input type="hidden" name="OrderId" value="@Model.OrderId" />
         <button type="submit" class="btn red waves-effect waves-light">Eliminar</button>
         <a href="@Url.Action("Index", "Order")" class="btn grey waves-effect waves-light">Cancelar</a>
     </form>

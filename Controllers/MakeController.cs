@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PetShop.Interfaces;
 using PetShop.Models;
 using PetShop.ViewModel.MakeViewModels;
 
+[Authorize]
 public class MakeController : Controller
 {
     private readonly IMakeService _makeService;

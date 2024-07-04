@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using PetShop.ViewModel.ProductCategoryViewModels;
 
 namespace PetShop.Controllers
 {
+    [Authorize] 
     public class ProductCategoryController : Controller
     {
         private readonly IProductCategoryService _productCategoryService;

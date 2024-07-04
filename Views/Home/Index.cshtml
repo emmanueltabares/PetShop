@@ -1,8 +1,17 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
     ViewData["Title"] = "Home Page";
+    var user = await UserManager.GetUserAsync(User);
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if(User.Identity != null)
+{
+    <div class="text-center">
+        <h1 class="display-4">Sistema de Gestión 4Patas</h1>
+        <p>Bienvenido @user.UserName</p>
+    </div>
+}

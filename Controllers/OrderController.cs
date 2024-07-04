@@ -13,9 +13,11 @@ using System.Text.Json;
 using PetShop.Interfaces;
 using PetShop.ViewModel.OrderViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PetShop.Controllers;
 
+[Authorize]
 public class OrderController : Controller {
 
     private readonly IOrderService _orderService;
@@ -51,7 +53,7 @@ public class OrderController : Controller {
         return View(model);
     } 
 
-    public IActionResult Create()
+    public IActionResult Create(int? id)
     {
         var model = new OrderAddProductViewModel
         {
@@ -63,6 +65,18 @@ public class OrderController : Controller {
             model.AvailableProducts.Add(
                 new SelectListItem { Value = product.ProductId.ToString(), Text = product.Name }
             );
+        }
+
+        if(id != null) {
+            var currentOrder = _orderService.GetById(id.Value);
+            if(currentOrder == null) return NotFound();
+
+            model.OrderProducts = currentOrder.OrderDetails.Select(x => new OrderProductViewModel {
+                ProductId = x.ProductId,
+                Name = x.Product.Name,
+                Price = x.Product.Price,
+                Quantity = x.Quantity
+            }).ToList();
         }
 
         return View(model); 
@@ -115,6 +129,60 @@ public class OrderController : Controller {
         return View("Create", model);
     }
 
+    public IActionResult RemoveProductOnEditOrder(OrderEditProductViewModel model, int productId)
+    {
+        var product = _productService.GetById(productId);
+
+        if (product != null)
+        {
+            var existingProduct = model.OrderProducts.FirstOrDefault(p => p.ProductId == productId);
+            if (existingProduct != null)
+            {
+                model.OrderProducts.Remove(existingProduct);
+            }
+        }
+
+        model.AvailableProducts = _productService.GetAll()
+            .Select(p => new SelectListItem { Value = p.ProductId.ToString(), Text = p.Name })
+            .ToList();
+
+        model.OrderId = model.OrderId;
+
+        return View("Edit", model);
+    }
+
+    public IActionResult AddProductOnEditOrder(OrderEditProductViewModel model)
+    {
+        var product = _productService.GetById(model.SelectedProductId);
+
+        if (product != null)
+        {
+            var existingProduct = model.OrderProducts.FirstOrDefault(p => p.ProductId == model.SelectedProductId);
+            if (existingProduct != null)
+            {
+                existingProduct.Quantity += model.Quantity;
+            }
+            else
+            {
+                model.OrderProducts.Add(new OrderProductViewModel
+                {
+                    ProductId = product.ProductId,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Quantity = model.Quantity
+                });
+            }
+        }
+
+        model.AvailableProducts = _productService.GetAll()
+            .Select(p => new SelectListItem { Value = p.ProductId.ToString(), Text = p.Name })
+            .ToList();
+
+        model.OrderId = model.OrderId;
+
+        return View("Edit", model);
+    }
+
     [HttpPost]
     public IActionResult Create(OrderCreateViewModel orderModel)
     {
@@ -129,7 +197,7 @@ public class OrderController : Controller {
 
             var order = new Order() {
                 UserId = loggedInUser.Result.Id,
-                OrderDate = DateTime.Now.ToString("dd/MM/yyyy"), // new DateTime().GetDateTimeFormats().ToString(),
+                OrderDate = DateTime.Now.ToString("dd/MM/yyyy"),
                 TotalProducts = totalProductsInOrder,
                 TotalPrice = (decimal)totalPrice,
             };
@@ -192,9 +260,109 @@ public class OrderController : Controller {
             TempData["SuccessMessage"] = "Orden de compra eliminada correctamente.";
             return RedirectToAction("Index");
         }
-        catch (System.Exception ex) {
+        catch {
             TempData["ErrorMessage"] = "No se puede eliminar la orden de compra.";
             return RedirectToAction("Delete", new { id = model.OrderId });
+        }
+    }
+
+    public IActionResult Edit(int id)
+    {
+        var model = new OrderEditProductViewModel
+        {
+            OrderProducts = new List<OrderProductViewModel>()
+        };
+
+        var products = _productService.GetAll();
+        foreach(var product in products) {
+            model.AvailableProducts.Add(
+                new SelectListItem { Value = product.ProductId.ToString(), Text = product.Name }
+            );
+        }
+
+        if(id != null) {
+            var currentOrder = _orderService.GetById(id);
+            if(currentOrder == null) return NotFound();
+
+            model.OrderProducts = currentOrder.OrderDetails.Select(x => new OrderProductViewModel {
+                ProductId = x.ProductId,
+                Name = x.Product.Name,
+                Price = x.Product.Price,
+                Quantity = x.Quantity
+            }).ToList();
+
+            model.OrderId = currentOrder.OrderId;
+        }
+
+        return View(model); 
+    }
+
+    [HttpPost]
+    public IActionResult Edit(OrderCreateViewModel model, int orderId)
+    {
+        var order = _orderService.GetById(orderId);
+        if(order == null) return NotFound();
+
+        if(ModelState.IsValid) {
+
+            try {
+                _orderDetailService.Remove(order.OrderId);
+
+                var totalProductsInOrder = model.OrderProducts.Sum(x => x.Quantity);
+                var totalPrice = model.OrderProducts.Sum(x => x.Price * x.Quantity);
+
+                order.TotalProducts = totalProductsInOrder;
+                order.TotalPrice = (decimal)totalPrice;
+
+                _orderService.Update(order);
+
+                foreach(var product in model.OrderProducts) {
+                    var orderProductDetail = new OrderDetail() {
+                        OrderId = order.OrderId,
+                        ProductId = product.ProductId,
+                        Quantity = product.Quantity
+                    };
+
+                    _orderDetailService.Create(orderProductDetail);
+                }
+
+                TempData["SuccessMessage"] = "Orden de compra actualizada correctamente.";
+                return RedirectToAction("Index");
+            } catch {
+                TempData["ErrorMessage"] = "No se puede actualizar la orden de compra.";
+                return RedirectToAction("Edit", new { id = orderId });
+            }
+        }
+        return View(model);
+    }
+
+    [HttpPost]
+    [ActionName("Dispatch")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DispatchOrder(int orderId)
+    {
+        if(orderId == null) return RedirectToAction(nameof(Index));   
+        var order = _orderService.GetById(orderId);
+        if(order == null) return NotFound();
+
+        try {
+            foreach(var orderDetail in order.OrderDetails) {
+                var product = _productService.GetById(orderDetail.ProductId);
+                if(product.Stock < orderDetail.Quantity) {
+                    TempData["ErrorMessage"] = "No se puede despachar la orden de compra. Stock Insuficiente";
+                    return RedirectToAction("Index");
+                }
+
+                product.Stock -= orderDetail.Quantity;
+                _productService.Update(product);
+            }
+
+                _orderService.Dispatch(order.OrderId);
+                TempData["SuccessMessage"] = "Orden de compra despachada correctamente.";
+                return RedirectToAction("Index");
+        } catch {
+            TempData["ErrorMessage"] = "No se puede despachar la orden de compra.";
+            return RedirectToAction("Index");
         }
     }
 }

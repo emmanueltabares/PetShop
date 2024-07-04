@@ -32,7 +32,6 @@ public class UserController : Controller
         _context = context;
     }
 
-    // [Authorize("Administrador")]
     public IActionResult Index(string? filter)
     {
         var userModel = new UserListViewModel() {};
@@ -64,7 +63,6 @@ public class UserController : Controller
         }
     }
 
-    // [Authorize]
     public IActionResult Create()
     {
         var userViewModel = new UserCreateViewModel
@@ -79,7 +77,6 @@ public class UserController : Controller
         return View(userViewModel);
     }
 
-    // [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create(UserCreateViewModel model)
     {
@@ -113,7 +110,6 @@ public class UserController : Controller
         }
     }
 
-    // [Authorize(Roles = "Administrador")]
     [HttpGet]
     public async Task<IActionResult> Edit(UserEditViewModel model)
     {
@@ -135,7 +131,6 @@ public class UserController : Controller
         return View(userViewModel);
     }
 
-    // [Authorize(Roles = "Administrador")]
     [HttpPost]
     public async Task<IActionResult> EditConfirmed(UserEditViewModel model)
     {
@@ -164,8 +159,8 @@ public class UserController : Controller
                 if(newRole != null) {
                     var currentRole = await _userManager.GetRolesAsync(user);
                     if(currentRole.Count == 0) {
-                        await _userManager.AddToRoleAsync(user, newRole.Name);
-                    } else {
+                         await _userManager.AddToRoleAsync(user, newRole.Name);
+                    } else if(currentRole.FirstOrDefault() != newRole.Name) {
                         await _userManager.RemoveFromRoleAsync(user, currentRole.FirstOrDefault());
                         await _userManager.AddToRoleAsync(user, newRole.Name);
                     }
@@ -198,7 +193,6 @@ public class UserController : Controller
             return View(userDetailviewModel);
         }
 
-    // [Authorize]
     public async Task<IActionResult> Delete(string? id)
         {
             if (id == null) return NotFound();
@@ -214,7 +208,6 @@ public class UserController : Controller
             return View(userViewModel);
         }
 
-    [Authorize(Roles = "Administrador")]
     [HttpPost, ActionName("Delete")]
     public async Task<IActionResult> DeleteConfirmed(string? id)
         {
@@ -225,7 +218,8 @@ public class UserController : Controller
 
             try {
                 await _userManager.DeleteAsync(user);
-                return View("index");
+                TempData["SuccessMessage"] = "Usuario eliminado correctamente";
+                return RedirectToAction(nameof(Index));
             } catch (Exception) {
 
                 var errorViewModel = new ErrorViewModel() {

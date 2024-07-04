@@ -1,4 +1,14 @@
+@using Microsoft.AspNetCore.Identity
 @model PetShop.ViewModel.OrderViewModels.OrderListViewModel
+
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var roles = user != null ? await UserManager.GetRolesAsync(user) : new List<string>();
+}
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -44,64 +54,92 @@
     }
 </style>
 
-<div class="container">
-    <h4 class="center-align">Lista de Órdenes</h4>
+@if(User.Identity != null) {
+    <div class="container">
+        <h4 class="center-align">Lista de Órdenes</h4>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div id="success-message" class="card-panel green lighten-4" style="padding: 10px; position: relative;">
-            <span class="green-text text-darken-4" style="margin: 0;">@TempData["SuccessMessage"]</span>
-            <span class="close-btn">&times;</span>
-        </div>
-    }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div id="success-message" class="card-panel green lighten-4" style="padding: 10px; position: relative;">
+                <span class="green-text text-darken-4" style="margin: 0;">@TempData["SuccessMessage"]</span>
+                <span class="close-btn">&times;</span>
+            </div>
+        }
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div id="error-message" class="card-panel red lighten-4" style="padding: 10px; position: relative;">
-            <span class="red-text text-darken-4" style="margin: 0;">@TempData["ErrorMessage"]</span>
-            <span class="close-btn">&times;</span>
-        </div>
-    }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div id="error-message" class="card-panel red lighten-4" style="padding: 10px; position: relative;">
+                <span class="red-text text-darken-4" style="margin: 0;">@TempData["ErrorMessage"]</span>
+                <span class="close-btn">&times;</span>
+            </div>
+        }
 
-    <div class="action-cell">
-        <div class="action-buttons">
-            <a href="@Url.Action("Create", "Order")" class="btn waves-effect waves-light">Generar Orden</a>
-        </div>
-    </div>
+        @if(User.IsInRole("Administrador") || User.IsInRole("Ventas")) {
+            <div class="action-cell">
+                <div class="action-buttons">
+                    <a href="@Url.Action("Create", "Order")" class="btn waves-effect waves-light">Generar Orden</a>
+                </div>
+            </div>
+        }
 
-    <table class="table table-container table-striped">
-        <thead>
-            <tr>
-                <th>ID de Orden</th>
-                <th>Fecha de Orden</th>
-                <th>Fecha de Despacho</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model.Orders)
-            {
+        <table class="table table-container table-striped">
+            <thead>
                 <tr>
-                    <td>@order.OrderId</td>
-                    <td>@order.OrderDate</td>
-                    <td>
-                        @if(@order.ShippingDate != null) {
-                            @order.ShippingDate
-                        } else {
-                            <span class="red-text">- En Proceso -</span>
-                        }
-                    </td>
-                    <td>$@order.TotalPrice</td>
-                    <td class="right-align">
-                        <a href="@Url.Action("Details", "Order", new { id = order.OrderId })" class="btn-small blue waves-effect waves-light">Detalle</a>
-                        <a href="Edit/@order.OrderId" class="btn-small waves-effect waves-light">Editar</a>
-                        <a href="Delete/@order.OrderId" class="btn-small red waves-effect waves-light">Eliminar</a>
-                    </td>
+                    <th>ID de Orden</th>
+                    <th>Fecha de Orden</th>
+                    <th>Fecha de Despacho</th>
+                    <th>Total</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    <tr>
+                        <td>@order.OrderId</td>
+                        <td>@order.OrderDate</td>
+                        <td>
+                            @if(@order.ShippingDate != null) {
+                                <span class="green-text">@order.ShippingDate</span>
+                            } else {
+                                <span class="red-text">- En Proceso -</span>
+                            }
+                        </td>
+                        <td>$@order.TotalPrice</td>
+                        <td class="right-align">
+                            @if(User.IsInRole("Logistica") || User.IsInRole("Ventas") || User.IsInRole("Administrador")) {
+                                <a href="@Url.Action("Details", "Order", new { id = order.OrderId })" class="btn-small blue waves-effect waves-light">Detalle</a>
+                            }
+
+                            @if (@order.ShippingDate == null) {
+                                
+                                @if(User.IsInRole("Ventas") || User.IsInRole("Administrador")) {
+                                    <a href="@Url.Action("Edit", "Order", new { id = order.OrderId })" class="btn-small waves-effect waves-light">Editar</a>
+                                }
+                            
+                                @if(User.IsInRole("Logistica") || User.IsInRole("Administrador")) {
+                                    <a style="display: inline-block;">
+                                        <form asp-controller="Order" asp-action="Dispatch" method="post">
+                                            <input type="hidden" name="OrderId" value="@order.OrderId" />
+                                            <button type="submit" class="btn-small orange waves-effect waves-light">Despachar</button>
+                                        </form>
+                                    </a>
+                                }
+
+                            }
+                            
+                            @if(User.IsInRole("Administrador") || (User.IsInRole("Ventas") && @order.ShippingDate == null)) {
+                                <a href="@Url.Action("Delete", "Order", new { id = order.OrderId })" class="btn-small red waves-effect waves-light">Eliminar</a>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+   
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -12,9 +12,11 @@ using PetShop.Models;
 using PetShop.ViewModel;
 using PetShop.Interfaces;
 using PetShop.ViewModel.ProductViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PetShop.Controllers
 {
+	[Authorize]
 	public class ProductController : Controller
 	{
 		private readonly IProductService _productService;
@@ -158,21 +160,41 @@ namespace PetShop.Controllers
 		public IActionResult Edit(int id, Product product)
 		{
 			if (id != product.ProductId) return NotFound();
+
+			ModelState.Remove("ProductCategories");
+			ModelState.Remove("AnimalCategories");
+			ModelState.Remove("Make");
+			ModelState.Remove("OrderDetails");
+			ModelState.Remove("AnimalCategory");
+			ModelState.Remove("ProductCategory");
+
 			if (ModelState.IsValid)
 			{
 				try
 				{
 					_productService.Update(product);
 					TempData["SuccessMessage"] = "Producto actualizado correctamente.";
+					return RedirectToAction(nameof(Index));
+					
 				}
 				catch (DbUpdateConcurrencyException)
 				{
-					if (!ProductExists(product.ProductId)) return NotFound();
-					else throw;
+					TempData["ErrorMessage"] = "Error al intentar actualizar el producto.";
+					return RedirectToAction(nameof(Index));
 				}
-				return RedirectToAction(nameof(Index));
 			}
-			return View(product);
+
+			TempData["ErrorMessage"] = "Complete los datos requeridos";
+			
+			var model = new ProductEditViewModel {
+				ProductId = product.ProductId,
+				Name = product.Name,
+				Price = product.Price,
+				Stock = product.Stock,
+				Description = product.Description,
+				Cod = product.Cod,
+			};
+			return View(model);
 		}
 
 		// GET: Product/Delete/5
@@ -197,9 +219,28 @@ namespace PetShop.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult DeleteConfirmed(int id)
 		{
-			_productService.Delete(id);
-			TempData["SuccessMessage"] = "Producto eliminado correctamente.";
-			return RedirectToAction(nameof(Index));
+			try {
+				var product = _productService.GetById(id);
+				if(product == null) return NotFound();
+
+				try {
+					_productService.Delete(id);
+					TempData["SuccessMessage"] = "Producto eliminado correctamente.";
+					return RedirectToAction(nameof(Index));
+				}
+				catch (DbUpdateException ex) {
+					TempData["ErrorMessage"] = "No se puede eliminar el producto porque tiene órdenes asociadas.";
+					var model = new ProductDeleteViewModel
+						{
+							ProductId = product.ProductId,
+							Name = product.Name
+						};
+					return View(model);
+				}
+			} catch (Exception ex) {
+				TempData["ErrorMessage"] = "Error al intentar eliminar el producto" + ex.Message;
+				return RedirectToAction(nameof(Index));
+			}
 		}
 
 		private bool ProductExists(int id)

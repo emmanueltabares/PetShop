@@ -5,5 +5,6 @@ public interface IOrderDetailService {
 
     void Create(OrderDetail obj);
     void GetById(int id);
+    void Remove(int id);
 
 }

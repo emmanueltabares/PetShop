@@ -29,6 +29,20 @@ namespace PetShop.Data
             modelBuilder.Entity<OrderDetail>()
                 .HasKey(od => new { od.OrderId, od.ProductId });
 
+            // Configuración de restricción para evitar eliminación de productos con órdenes asociadas
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.OrderDetails)
+                .WithOne(od => od.Product)
+                .HasForeignKey(od => od.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configuración de restricción para evitar eliminación de órdenes con detalles asociados
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.OrderDetails)
+                .WithOne(od => od.Order)
+                .HasForeignKey(od => od.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.AnimalCategory)
                 .WithMany(ac => ac.Products)

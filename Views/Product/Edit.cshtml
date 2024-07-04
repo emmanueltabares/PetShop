@@ -7,6 +7,7 @@
 <div class="container">
     <h4 class="center-align">Editar Producto</h4>
     <form asp-action="Edit" method="post">
+        <input type="hidden" name="ProductId" value="@Model.ProductId">
         <div class="input-field">
             <input type="text" id="Name" name="Name" value="@Model.Name" required>
             <label for="Name" class="active">Nombre</label>

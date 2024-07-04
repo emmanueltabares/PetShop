@@ -1,0 +1,17 @@
+using Microsoft.AspNetCore.Mvc.Rendering;
+using PetShop.Models;
+using PetShop.ViewModel.OrderViewModels;
+
+namespace PetShop.ViewModel.OrderViewModels;
+
+public class OrderEditProductViewModel {
+
+    public int OrderId { get; set; }
+    public List<OrderProductViewModel> OrderProducts { get; set; } = new List<OrderProductViewModel>();
+    public int UserId { get; set; }
+    public List<SelectListItem> AvailableProducts { get; set; } = new List<SelectListItem>();
+    public int SelectedProductId { get; set; }
+    public int Quantity { get; set; }
+    public float TotalPrice => OrderProducts.Sum(x => x.Price * x.Quantity);
+
+}   

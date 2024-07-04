@@ -8,4 +8,6 @@ public interface IOrderService
     List<Order> GetAll(string filter);
     Order GetById(int id);
     void Delete(int id);
+    void Update(Order order);
+    void Dispatch(int id);
 }
