@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PetShop.Controllers;
 
-[Authorize]
+[Authorize (Roles = "Administrador")]
 public class RoleController : Controller
 {
     private readonly ILogger<HomeController> _logger;

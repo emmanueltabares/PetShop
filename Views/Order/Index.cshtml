@@ -58,6 +58,19 @@
     <div class="container">
         <h4 class="center-align">Lista de Órdenes</h4>
 
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form asp-controller="Order" asp-action="Index" method="get" class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar por ID, Fecha orden o Fecha despacho" aria-label="Buscar por nombre" aria-describedby="basic-addon2" name="filter" value="@Model.Filter">
+                    </div>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         @if (TempData["SuccessMessage"] != null)
         {
             <div id="success-message" class="card-panel green lighten-4" style="padding: 10px; position: relative;">

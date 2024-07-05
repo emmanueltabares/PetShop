@@ -23,6 +23,11 @@ namespace PetShop.Data
         public DbSet<AnimalCategory> AnimalCategory { get; set; } = default!;
         public DbSet<Make> Make { get; set; } = default!;
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=ProductDB.db");
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -68,7 +73,18 @@ namespace PetShop.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
+        }
 
+        public override int SaveChanges()
+        {
+            Database.ExecuteSqlRaw("PRAGMA foreign_keys = ON;");
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            Database.ExecuteSqlRaw("PRAGMA foreign_keys = ON;");
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

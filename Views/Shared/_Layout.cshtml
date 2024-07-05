@@ -31,34 +31,34 @@
                             <ul class="navbar-nav flex-grow-1">
 
                                 @if(roles.Contains("Administrador") || roles.Contains("Logistica")) {
-                                    <li class="nav-item">
+                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Product" ? "nav-item-active" : "")">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Productos</a>
                                     </li>
                                 }
 
                                 @if(roles.Contains("Administrador")) {
-                                    <li class="nav-item">
+                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "AnimalCategory" ? "nav-item-active" : "")">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="AnimalCategory" asp-action="Index">Categoría de Animales</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "ProductCategory" ? "nav-item-active" : "")">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="ProductCategory" asp-action="Index">Categoría de Productos</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Make" ? "nav-item-active" : "")">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Make" asp-action="Index">Marcas</a>
                                     </li>
                                 }
 
                                 @if(roles.Contains("Administrador") || roles.Contains("Ventas") || roles.Contains("Logistica")) {
-                                    <li class="nav-item">
+                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" ? "nav-item-active" : "")">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Ordenes</a>
                                     </li>
                                 }
 
                                 @if(roles.Contains("Administrador")) {
-                                    <li class="nav-item">
+                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "nav-item-active" : "")">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Usuarios</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item @(ViewContext.RouteData.Values["Controller"].ToString() == "Role" ? "nav-item-active" : "")">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Roles</a>
                                     </li>
                                 }

@@ -14,7 +14,7 @@ using PetShop.ViewModel.AnimalCategoryViewModels;
 
 namespace PetShop.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "Administrador")]
     public class AnimalCategoryController : Controller
     {
         private readonly IAnimalCategoryService _animalCategoryService;

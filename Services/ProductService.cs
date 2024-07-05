@@ -33,7 +33,12 @@ class ProductService : IProductService {
         var query = from product in _productContext.Product select product;
 
         if (!string.IsNullOrEmpty(filter)) {
-            query = query.Where(x => x.Name.Contains(filter))
+            query = query.Where(x => 
+                    x.Name.Contains(filter) ||
+                    x.ProductCategory.Name.Contains(filter) ||
+                    x.AnimalCategory.Name.Contains(filter) ||
+                    x.Make.Name.Contains(filter)
+                )
                 .Include(p => p.ProductCategory)
                 .Include(p => p.AnimalCategory)
                 .Include(p => p.Make);

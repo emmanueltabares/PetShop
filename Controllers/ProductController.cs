@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PetShop.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "Administrador, Logistica")]
 	public class ProductController : Controller
 	{
 		private readonly IProductService _productService;
@@ -101,6 +101,7 @@ namespace PetShop.Controllers
 
 		// POST: Product/Create
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public IActionResult Create(ProductCreateViewModel product) {
 			
 			if (product is null) {
@@ -157,29 +158,26 @@ namespace PetShop.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult Edit(int id, Product product)
-		{
-			if (id != product.ProductId) return NotFound();
-
-			ModelState.Remove("ProductCategories");
-			ModelState.Remove("AnimalCategories");
-			ModelState.Remove("Make");
-			ModelState.Remove("OrderDetails");
-			ModelState.Remove("AnimalCategory");
-			ModelState.Remove("ProductCategory");
-
-			if (ModelState.IsValid)
-			{
+		public IActionResult Edit(ProductEditViewModel product) {
+			if (ModelState.IsValid) {
 				try
 				{
-					_productService.Update(product);
+					var productFound = _productService.GetById(product.ProductId);
+					if(productFound == null) return NotFound();
+					
+					productFound.Name = product.Name;
+					productFound.Price = product.Price;
+					productFound.Stock = product.Stock;
+					productFound.Description = product.Description;
+					productFound.Cod = product.Cod;
+
+					_productService.Update(productFound);
 					TempData["SuccessMessage"] = "Producto actualizado correctamente.";
 					return RedirectToAction(nameof(Index));
-					
 				}
-				catch (DbUpdateConcurrencyException)
+				catch (Exception ex)
 				{
-					TempData["ErrorMessage"] = "Error al intentar actualizar el producto.";
+					TempData["ErrorMessage"] = "Error al intentar actualizar el producto." + ex.Message;
 					return RedirectToAction(nameof(Index));
 				}
 			}
@@ -241,11 +239,6 @@ namespace PetShop.Controllers
 				TempData["ErrorMessage"] = "Error al intentar eliminar el producto" + ex.Message;
 				return RedirectToAction(nameof(Index));
 			}
-		}
-
-		private bool ProductExists(int id)
-		{
-			return _productService.GetById(id) != null;
 		}
 
 	}

@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace PetShop.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Administrador")]
 public class UserController : Controller
 {
     private readonly UserManager<IdentityUser> _userManager;
@@ -38,7 +38,15 @@ public class UserController : Controller
 
         if(!string.IsNullOrEmpty(filter)) {
 
-            var users = _userManager.Users.Where(u => u.UserName.Contains(filter)).ToList();
+            var users = _userManager.Users
+            .ToList()
+            .Where(u =>
+                u.UserName.Contains(filter) ||
+                u.Email.Contains(filter) ||
+                _userManager.GetRolesAsync(u).Result.Contains(filter)
+            )
+            .ToList();
+
             userModel.Users = users.Select(u => new UserViewModel {
                 Id = u.Id,
                 UserName = u.NormalizedUserName,

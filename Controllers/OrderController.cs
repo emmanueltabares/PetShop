@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PetShop.Controllers;
 
-[Authorize]
+[Authorize (Roles = "Administrador, Ventas, Logistica")]
 public class OrderController : Controller {
 
     private readonly IOrderService _orderService;

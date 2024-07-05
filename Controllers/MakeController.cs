@@ -5,7 +5,7 @@ using PetShop.Interfaces;
 using PetShop.Models;
 using PetShop.ViewModel.MakeViewModels;
 
-[Authorize]
+[Authorize (Roles = "Administrador")]
 public class MakeController : Controller
 {
     private readonly IMakeService _makeService;

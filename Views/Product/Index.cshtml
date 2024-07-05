@@ -52,7 +52,7 @@
         <div class="col-md-6">
             <form asp-controller="Product" asp-action="Index" method="get" class="form-inline">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Buscar por nombre" aria-label="Buscar por nombre" aria-describedby="basic-addon2" name="filter" value="@Model.Filter">
+                    <input type="text" class="form-control" placeholder="Buscar por nombre, categoria o marca" aria-label="Buscar por nombre" aria-describedby="basic-addon2" name="filter" value="@Model.Filter">
                 </div>
                 <div class="input-group">
                     <button class="btn btn-outline-secondary" type="submit">Buscar</button>
@@ -70,6 +70,14 @@
     {
         <div id="success-message" class="card-panel green lighten-4" style="padding: 10px; position: relative;">
             <span class="green-text text-darken-4" style="margin: 0;">@TempData["SuccessMessage"]</span>
+            <span class="close-btn">&times;</span>
+        </div>
+    }
+
+        @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="error-message" class="card-panel red lighten-4" style="padding: 10px; position: relative;">
+            <span class="red-text text-darken-4" style="margin: 0;">@TempData["ErrorMessage"]</span>
             <span class="close-btn">&times;</span>
         </div>
     }
@@ -92,7 +100,7 @@
                     {
                         <tr>
                             <td>@product.Name</td>
-                            <td>@product.Price</td>
+                            <td>$@product.Price</td>
                             <td>@product.Stock</td>
                             <td>@product.Make.Name</td>
                             <td>@product.ProductCategory.Name</td>
@@ -119,6 +127,16 @@
                 var successMessage = document.getElementById('success-message');
                 if (successMessage) {
                     successMessage.style.display = 'none';
+                }
+            });
+        }
+
+        var closeErrorBtn = document.querySelector('#error-message .close-btn');
+        if (closeErrorBtn) {
+            closeErrorBtn.addEventListener('click', function () {
+                var errorMessage = document.getElementById('error-message');
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
                 }
             });
         }

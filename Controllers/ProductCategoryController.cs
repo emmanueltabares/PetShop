@@ -14,7 +14,7 @@ using PetShop.ViewModel.ProductCategoryViewModels;
 
 namespace PetShop.Controllers
 {
-    [Authorize] 
+    [Authorize(Roles = "Administrador")] 
     public class ProductCategoryController : Controller
     {
         private readonly IProductCategoryService _productCategoryService;

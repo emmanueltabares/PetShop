@@ -28,7 +28,11 @@ class OrderService : IOrderService {
   {
     var query = from order in _context.Order select order;
     if (!string.IsNullOrEmpty(filter)) {
-      query = query.Where(x => x.OrderDate.ToString().Contains(filter));
+      query = query.Where(
+          x => x.OrderId.ToString().Contains(filter)
+          || x.OrderDate.Contains(filter)
+          || x.ShippingDate.Contains(filter)
+        );
     }
 
     return query.ToList();
