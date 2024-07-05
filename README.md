@@ -47,4 +47,11 @@ Se generan desde la pestaña Ordenes y esta asignado por defecto al rol Ventas. 
 
 ## Despacho de compras
 El encargado será el rol Logistica y podrá ver el detalle de la orden con sus productos y despachar las ordenes de compra disponibles previa consulta automática de stock disponible.
-Si el stock de algún producto no supera la cantidad del pedido, la orden no podrá despacharse. 
+Si el stock de algún producto no supera la cantidad del pedido, la orden no podrá despacharse.
+
+## Integridad de información
+- Las ordenes de compra ya despachadas no podrán ser eliminadas por usuarios que no sean Administradores. Aquellas ordenes que se eliminen, también eliminará los detalles de dicha orden.
+- Eliminar un usuario sólo estará permitido si no tiene órdenes asignadas.
+- Eliminar un producto sólo estará permitido si no es parte de un detalle de órden.
+- Eliminar un rol sólo estará permitido si no existen usuario con dicho rol asignado.
+- Eliminar una Marca o Categoría, sólo stará permitido si no hay Productos que tengan asignado dicha Marca o Categoría.
