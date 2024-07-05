@@ -38,6 +38,9 @@ Cada producto, ademas de sus atributos, contendrá una relación a Categoría de
 
 Como Administrador puede realizar todas las acciones CRUD en cualquiera de estas secciones, incluyendo Usuarios, Ordenes y Roles.
 
+## Facilidad de búsquedas
+Cada sección tendrá un filtro dónde se podrá buscar la información deseada por varios campos detallados en los filtros de búsqueda.
+
 ## Asignación de Roles
 Lo hace el administrador, se puede ingresar a la pestaña Usuarios y asignar el rol previamente cargado a los usuarios que se desee.
 Los roles disponibles se pueden generar y ver en la pestaña Roles.
