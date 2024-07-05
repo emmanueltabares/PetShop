@@ -41,11 +41,11 @@ Como Administrador puede realizar todas las acciones CRUD en cualquiera de estas
 ## Facilidad de búsquedas
 Cada sección tendrá un filtro dónde se podrá buscar la información deseada por varios campos detallados en los filtros de búsqueda.
 
-## Asignación de Roles
+## Asignación de roles
 Lo hace el administrador, se puede ingresar a la pestaña Usuarios y asignar el rol previamente cargado a los usuarios que se desee.
 Los roles disponibles se pueden generar y ver en la pestaña Roles.
 
-## Generación de Ordenes de compra
+## Generación de órdenes de compra
 Se generan desde la pestaña Ordenes y esta asignado por defecto al rol Ventas. Se genera la orden con los productos disponibles y con una fecha de creación.
 
 ## Despacho de compras
