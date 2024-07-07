@@ -8,7 +8,7 @@ La lógica de bajas de stock ante el despacho de una compra se gestionan automá
 
 # Usuarios y Roles
 Cada usuario puede registrarse con email y password.
-Cada usuario tendra un único rol asignado. Por defecto el Administrador será el encargado de tener acceso a todas las funcionalidades del sistema. Luego existirán los roles Ventas y Logística según el sector al que perteneces el usuario. Puede haber tantos usuarios como se desee siempre y estos podrán tener acceso a las funcionalidades del sistema una vez que se les haya asignado un rol.
+Cada usuario tendra un único rol asignado. Por defecto el Administrador será el encargado de tener acceso a todas las funcionalidades del sistema. Luego existirán los roles Ventas y Logística según el sector al que pertenezca el usuario. Puede haber tantos usuarios como se desee y estos podrán tener acceso a las funcionalidades del sistema una vez que se les haya asignado un rol.
 
 # Comienzo
 
