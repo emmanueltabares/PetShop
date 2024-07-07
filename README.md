@@ -1,14 +1,14 @@
 # Información del proyecto
-En el proyecto es un CRUD realizado en .NET con un una estructura MVC. Se utilizó Entity Framework
+En el proyecto es un CRUD realizado en .NET con un una estructura MVC. Se utilizó Entity Framework como ORM
 
 # Finalidad del sistema
 El sistema tiene como fin administrar el stock y las ordenes de compra de un local para mascotas.
-Se podrá cargar la información necesaria de los productos disponibles del local y cargar las ordenes de compra que se realicen, en la plataforma.
+Se podrá cargar la información necesaria de los productos disponibles del local y cargar las órdenes de compra que se realicen, en la plataforma.
 La lógica de bajas de stock ante el despacho de una compra se gestionan automáticamente.
 
 # Usuarios y Roles
 Cada usuario puede registrarse con email y password.
-Cada usuario tendra un único rol asignado. Por defecto el Administrador será el encargado de tener acceso a todas las funcionalidad del sistema. Luego existirán los roles Ventas y Logística según el sector al que perteneces el usuario. Puede haber tantos usuarios como se desee siempre y estos podrán tener acceso a las funcionalidades del sistema una vez que se les haya asignado un rol.
+Cada usuario tendra un único rol asignado. Por defecto el Administrador será el encargado de tener acceso a todas las funcionalidades del sistema. Luego existirán los roles Ventas y Logística según el sector al que perteneces el usuario. Puede haber tantos usuarios como se desee siempre y estos podrán tener acceso a las funcionalidades del sistema una vez que se les haya asignado un rol.
 
 # Comienzo
 
@@ -56,5 +56,5 @@ Si el stock de algún producto no supera la cantidad del pedido, la orden no pod
 - Las ordenes de compra ya despachadas no podrán ser eliminadas por usuarios que no sean Administradores. Aquellas ordenes que se eliminen, también eliminará los detalles de dicha orden.
 - Eliminar un usuario sólo estará permitido si no tiene órdenes asignadas.
 - Eliminar un producto sólo estará permitido si no es parte de un detalle de órden.
-- Eliminar un rol sólo estará permitido si no existen usuario con dicho rol asignado.
+- Eliminar un rol sólo estará permitido si no existen usuarios con dicho rol asignado.
 - Eliminar una Marca o Categoría, sólo stará permitido si no hay Productos que tengan asignado dicha Marca o Categoría.
