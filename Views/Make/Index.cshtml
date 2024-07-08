@@ -77,6 +77,15 @@
         </div>
     }
 
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div id="error-message" class="card-panel red lighten-4" style="padding: 10px; position: relative;">
+            <span class="red-text text-darken-4" style="margin: 0;">@TempData["ErrorMessage"]</span>
+            <span class="close-btn">&times;</span>
+        </div>
+    }
+
+
     <div class="row">
         <div class="col-md-12">
             <table class="table table-container table-striped">
@@ -106,9 +115,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var closeBtn = document.querySelector('.close-btn');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function () {
+        // Close button functionality for success message
+        var closeSuccessBtn = document.querySelector('#success-message .close-btn');
+        if (closeSuccessBtn) {
+            closeSuccessBtn.addEventListener('click', function () {
                 var successMessage = document.getElementById('success-message');
                 if (successMessage) {
                     successMessage.style.display = 'none';
@@ -116,11 +126,23 @@
             });
         }
 
+        // Close button functionality for error message
+        var closeErrorBtn = document.querySelector('#error-message .close-btn');
+        if (closeErrorBtn) {
+            closeErrorBtn.addEventListener('click', function () {
+                var errorMessage = document.getElementById('error-message');
+                if (errorMessage) {
+                    errorMessage.style.display = 'none';
+                }
+            });
+        }
+
+        // Timer to hide the success message
         setTimeout(function () {
             var successMessage = document.getElementById('success-message');
             if (successMessage) {
                 successMessage.style.display = 'none';
             }
-        }, 2000);
+        }, 5000); // Hide after 5 seconds
     });
 </script>

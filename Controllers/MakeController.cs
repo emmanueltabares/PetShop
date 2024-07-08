@@ -81,16 +81,15 @@ public class MakeController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Edit(int id, MakeEditViewModel makeModel)
     {
-        if (id != makeModel.MakeId) return NotFound();
+        if (id == null) return NotFound();
         if (ModelState.IsValid)
         {
             try {
-                var make = new Make()
-                {
-                    MakeId = makeModel.MakeId,
-                    Name = makeModel.Name
-                };
 
+                var make = _makeService.GetById(id);
+                if(make == null) return NotFound();
+
+                make.Name = makeModel.Name;
                 _makeService.Update(make);
                 TempData["SuccessMessage"] = "Fabricante actualizado correctamente.";
                 return RedirectToAction(nameof(Index));

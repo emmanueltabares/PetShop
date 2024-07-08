@@ -84,21 +84,24 @@ namespace PetShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(AnimalCategoryEditViewModel model)
+        public IActionResult Edit(int id, AnimalCategoryEditViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var category = new AnimalCategory()
-                {
-                    AnimalCategoryId = model.AnimalCategoryId,
-                    Name = model.Name
-                };
+                try {
+                    var category = _animalCategoryService.GetById(id);
+                    if(category == null) return NotFound();
 
-                _animalCategoryService.Update(category);
-                TempData["SuccessMessage"] = "Categoría de animal actualizada correctamente.";
-                return RedirectToAction("Index");
+                    category.Name = model.Name;
+
+                    _animalCategoryService.Update(category);
+                    TempData["SuccessMessage"] = "Categoría de animal actualizada correctamente.";
+                    return RedirectToAction("Index");
+                } catch (Exception ex){
+                    TempData["ErrorMessage"] = "No se puede actualizar la categoría de animal." + ex.Message;
+                    return View(model);
+                }
             }
-
             return View(model);
         }
 

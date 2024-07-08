@@ -52,6 +52,7 @@ class AnimalCategoryService : IAnimalCategoryService
 
     public void Update(AnimalCategory category)
     {
-        throw new NotImplementedException();
+        _productContext.Update(category);
+        _productContext.SaveChanges();
     }
 }
