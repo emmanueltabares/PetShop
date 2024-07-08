@@ -9,7 +9,7 @@ namespace PetShop.ViewModel.ProductViewModels
 
         [Display(Name = "Nombre del producto")]
         [Required(ErrorMessage = "El nombre del producto es requerido")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "El nombre del producto debe tener entre 3 y 80 caracteres")]
+        [StringLength(80, MinimumLength = 3, ErrorMessage = "El nombre del producto debe tener entre 3 y 80 caracteres")]
         public string Name { get; set; }
 
         [Display(Name = "Código del producto")]
