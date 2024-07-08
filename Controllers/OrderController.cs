@@ -242,6 +242,11 @@ public class OrderController : Controller {
         var order = _orderService.GetById(id);
         if(order == null) return NotFound();
 
+        if(order.ShippingDate != null) {
+            TempData["ErrorMessage"] = "No es posible eliminar una orden de compra despachada.";
+            return RedirectToAction("Index");
+        }
+
         var model = new OrderDeleteViewModel(){
             OrderId = order.OrderId
         };
@@ -268,84 +273,101 @@ public class OrderController : Controller {
 
     public IActionResult Edit(int id)
     {
-        var model = new OrderEditProductViewModel
-        {
-            OrderProducts = new List<OrderProductViewModel>()
-        };
+        try {
+            var model = new OrderEditProductViewModel
+            {
+                OrderProducts = new List<OrderProductViewModel>()
+            };
 
-        var products = _productService.GetAll();
-        foreach(var product in products) {
-            model.AvailableProducts.Add(
-                new SelectListItem { Value = product.ProductId.ToString(), Text = product.Name }
-            );
+            var products = _productService.GetAll();
+            foreach(var product in products) {
+                model.AvailableProducts.Add(
+                    new SelectListItem { Value = product.ProductId.ToString(), Text = product.Name }
+                );
+            }
+
+            if(id != null) {
+                var currentOrder = _orderService.GetById(id);
+                if(currentOrder == null) return NotFound();
+
+                if(currentOrder.ShippingDate != null) {
+                    TempData["ErrorMessage"] = "No es posible editar una orden de compra despachada.";
+                    return RedirectToAction("Index");
+                }
+
+                model.OrderProducts = currentOrder.OrderDetails.Select(x => new OrderProductViewModel {
+                    ProductId = x.ProductId,
+                    Name = x.Product.Name,
+                    Price = x.Product.Price,
+                    Quantity = x.Quantity
+                }).ToList();
+
+                model.OrderId = currentOrder.OrderId;
+            }
+
+            return View(model);
+
+        } catch (Exception ex) {
+            TempData["ErrorMessage"] = "No se puede editar la orden de compra." + ex.Message;
+            return RedirectToAction("Index");
         }
-
-        if(id != null) {
-            var currentOrder = _orderService.GetById(id);
-            if(currentOrder == null) return NotFound();
-
-            model.OrderProducts = currentOrder.OrderDetails.Select(x => new OrderProductViewModel {
-                ProductId = x.ProductId,
-                Name = x.Product.Name,
-                Price = x.Product.Price,
-                Quantity = x.Quantity
-            }).ToList();
-
-            model.OrderId = currentOrder.OrderId;
-        }
-
-        return View(model); 
     }
 
     [HttpPost]
     public IActionResult Edit(OrderCreateViewModel model, int orderId)
     {
-        var order = _orderService.GetById(orderId);
-        if(order == null) return NotFound();
+        try {
+            var order = _orderService.GetById(orderId);
+            if(order == null) return NotFound();
 
-        if(ModelState.IsValid) {
+            if(ModelState.IsValid) {
 
-            try {
-                _orderDetailService.Remove(order.OrderId);
+                try {
+                    _orderDetailService.Remove(order.OrderId);
 
-                var totalProductsInOrder = model.OrderProducts.Sum(x => x.Quantity);
-                var totalPrice = model.OrderProducts.Sum(x => x.Price * x.Quantity);
+                    var totalProductsInOrder = model.OrderProducts.Sum(x => x.Quantity);
+                    var totalPrice = model.OrderProducts.Sum(x => x.Price * x.Quantity);
 
-                order.TotalProducts = totalProductsInOrder;
-                order.TotalPrice = (decimal)totalPrice;
+                    order.TotalProducts = totalProductsInOrder;
+                    order.TotalPrice = (decimal)totalPrice;
 
-                _orderService.Update(order);
+                    _orderService.Update(order);
 
-                foreach(var product in model.OrderProducts) {
-                    var orderProductDetail = new OrderDetail() {
-                        OrderId = order.OrderId,
-                        ProductId = product.ProductId,
-                        Quantity = product.Quantity
-                    };
+                    foreach(var product in model.OrderProducts) {
+                        var orderProductDetail = new OrderDetail() {
+                            OrderId = order.OrderId,
+                            ProductId = product.ProductId,
+                            Quantity = product.Quantity
+                        };
 
-                    _orderDetailService.Create(orderProductDetail);
+                        _orderDetailService.Create(orderProductDetail);
+                    }
+
+                    TempData["SuccessMessage"] = "Orden de compra actualizada correctamente.";
+                    return RedirectToAction("Index");
+                } catch {
+                    TempData["ErrorMessage"] = "No se puede actualizar la orden de compra.";
+                    return RedirectToAction("Edit", new { id = orderId });
                 }
-
-                TempData["SuccessMessage"] = "Orden de compra actualizada correctamente.";
-                return RedirectToAction("Index");
-            } catch {
-                TempData["ErrorMessage"] = "No se puede actualizar la orden de compra.";
-                return RedirectToAction("Edit", new { id = orderId });
             }
+            return View(model);
+        } catch (Exception ex) {
+            TempData["ErrorMessage"] = "No se puede editar la orden de compra." + ex.Message;
+            return RedirectToAction("Index");
         }
-        return View(model);
     }
 
     [HttpPost]
     [ActionName("Dispatch")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Logistica")]
     public IActionResult DispatchOrder(int orderId)
     {
-        if(orderId == null) return RedirectToAction(nameof(Index));   
-        var order = _orderService.GetById(orderId);
-        if(order == null) return NotFound();
+       try {
+            if(orderId == null) return RedirectToAction(nameof(Index));   
+            var order = _orderService.GetById(orderId);
+            if(order == null) return NotFound();
 
-        try {
             foreach(var orderDetail in order.OrderDetails) {
                 var product = _productService.GetById(orderDetail.ProductId);
                 if(product.Stock < orderDetail.Quantity) {

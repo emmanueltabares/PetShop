@@ -42,6 +42,7 @@ public class UserController : Controller
             .ToList()
             .Where(u =>
                 u.UserName.Contains(filter) ||
+                u.NormalizedUserName.Contains(filter) ||
                 u.Email.Contains(filter) ||
                 _userManager.GetRolesAsync(u).Result.Contains(filter)
             )
@@ -149,6 +150,8 @@ public class UserController : Controller
         if (user == null) return NotFound();
 
         user.PhoneNumber = model.Phone;
+        user.PasswordHash = user.PasswordHash;
+
         if(!string.IsNullOrEmpty(model.UserName)) {
 
             var normalizedUserName = string.Concat(model.UserName.Split(' ').Select(word =>

@@ -15,15 +15,22 @@ public class MakeController : Controller
         _makeService = makeService;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string? filter)
     {
-        var makes = _makeService.GetAll();
-        var model = new MakeListViewModel()
-        {
-            Makes = makes
-        };
 
-        return View(model);
+        var model = new MakeListViewModel();
+
+        if(!string.IsNullOrEmpty(filter))
+        {
+            var makes = _makeService.GetAll(filter);
+            model.Makes = makes;
+            return View(model);
+        } else {
+            var makes = _makeService.GetAll();
+            model.Makes = makes;
+
+            return View(model);
+        }
     }
 
     public IActionResult Create()
