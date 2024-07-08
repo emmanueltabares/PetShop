@@ -59,4 +59,4 @@ Si el stock de algún producto no supera la cantidad del pedido, la orden no pod
 - Eliminar una Marca o Categoría, sólo stará permitido si no hay Productos que tengan asignado dicha Marca o Categoría.
 
 ## Importante
-- La eliminación de un usuario eliminará todos sus datos relaciones, incluyendo órdenes de compra.
+- La eliminación de un usuario eliminará todos sus datos relacionados, incluyendo órdenes de compra.
