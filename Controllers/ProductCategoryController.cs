@@ -100,21 +100,27 @@ namespace PetShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name")] ProductCategory category)
+        public IActionResult Edit(int id, [Bind("Id,Name")] ProductCategory model)
         {
-            if (id != category.ProductCategoryId) return NotFound();
+            if (id == null) return NotFound();
+
+            ModelState.Remove("Products");
 
             if(ModelState.IsValid) {
                 try {
+                    var category = _productCategoryService.GetById(id);
+                    if(category == null) return NotFound();
+
+                    category.Name = category.Name;
                     _productCategoryService.Update(category);
                     TempData["SuccessMessage"] = "Categoría de producto actualizada correctamente.";
+                    return RedirectToAction(nameof(Index));
                 } catch (Exception ex) {
                     TempData["ErrorMessage"] = "No se pudo actualizar la categoría de producto." + ex.Message;
+                    return RedirectToAction(nameof(Index));
                 }
-                
-                return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View(model);
         }
 
         // GET: Category/Delete/5
@@ -158,5 +164,6 @@ namespace PetShop.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
