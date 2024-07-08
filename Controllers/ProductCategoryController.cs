@@ -111,7 +111,7 @@ namespace PetShop.Controllers
                     var category = _productCategoryService.GetById(id);
                     if(category == null) return NotFound();
 
-                    category.Name = category.Name;
+                    category.Name = model.Name;
                     _productCategoryService.Update(category);
                     TempData["SuccessMessage"] = "Categoría de producto actualizada correctamente.";
                     return RedirectToAction(nameof(Index));
