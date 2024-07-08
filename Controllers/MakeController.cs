@@ -49,7 +49,7 @@ public class MakeController : Controller
             var make = new Make()
             {
                 Name = model.Name,
-                Description = ""
+                Description = model.Name ?? ""
             };
 
             _makeService.Create(make);
@@ -84,15 +84,20 @@ public class MakeController : Controller
         if (id != makeModel.MakeId) return NotFound();
         if (ModelState.IsValid)
         {
-            var make = new Make()
-            {
-                MakeId = makeModel.MakeId,
-                Name = makeModel.Name
-            };
+            try {
+                var make = new Make()
+                {
+                    MakeId = makeModel.MakeId,
+                    Name = makeModel.Name
+                };
 
-            _makeService.Update(make);
-            TempData["SuccessMessage"] = "Fabricante actualizado correctamente.";
-            return RedirectToAction(nameof(Index));
+                _makeService.Update(make);
+                TempData["SuccessMessage"] = "Fabricante actualizado correctamente.";
+                return RedirectToAction(nameof(Index));
+            } catch (Exception ex) {
+                TempData["ErrorMessage"] = "No se puede actualizar el fabricante." + ex.Message;
+                return View(makeModel);
+            }
         }
         return View(makeModel);
     }
@@ -118,23 +123,23 @@ public class MakeController : Controller
     public IActionResult DeleteConfirmed(int id)
     {
         var animalCategory = _makeService.GetById(id);
-            if(animalCategory == null) return NotFound();
-            
-            try
-            {
-                _makeService.Delete(id);
-                TempData["SuccessMessage"] = "Fabricante eliminado correctamente.";
-            }
-            catch (DbUpdateException ex)
-            {
-                TempData["ErrorMessage"] = "No se puede eliminar el fabricante porque tiene productos asociados.";
-                var model = new MakeDeleteViewModel() {
-                    MakeId = animalCategory.MakeId,
-                    Name = animalCategory.Name
-                };
-                return View(model);
-            }
+        if(animalCategory == null) return NotFound();
+        
+        try
+        {
+            _makeService.Delete(id);
+            TempData["SuccessMessage"] = "Fabricante eliminado correctamente.";
+        }
+        catch (DbUpdateException ex)
+        {
+            TempData["ErrorMessage"] = "No se puede eliminar el fabricante porque tiene productos asociados.";
+            var model = new MakeDeleteViewModel() {
+                MakeId = animalCategory.MakeId,
+                Name = animalCategory.Name
+            };
+            return View(model);
+        }
 
-            return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index));
     }
 }

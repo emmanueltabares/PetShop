@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PetShop.Data;
 using PetShop.Interfaces;
 using PetShop.Models;
@@ -25,14 +26,20 @@ namespace PetShop.Controllers
         }
 
         // GET: Category
-        public IActionResult Index(string Filter)
+        public IActionResult Index(string? filter)
         {
-            var categories = _animalCategoryService.GetAll();
-            var model = new AnimalCategoryListViewModel() {
-                Categories = categories
-            };
+            var categoriesModel = new AnimalCategoryListViewModel();
 
-            return View(model);
+            if (!string.IsNullOrEmpty(filter))
+            {
+                var categories = _animalCategoryService.GetAll(filter);
+                categoriesModel.Categories = categories;
+                return View(categoriesModel);
+            } else {
+                var categories = _animalCategoryService.GetAll();
+                categoriesModel.Categories = categories;
+                return View(categoriesModel);
+            }
         }
 
         // GET: Category/Create
@@ -46,8 +53,7 @@ namespace PetShop.Controllers
         [HttpPost]
         public IActionResult Create(AnimalCategoryCreateViewModel model)
         {
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 var animalCategoryModel = new AnimalCategory()
                 {
                     Name = model.Name
@@ -55,8 +61,8 @@ namespace PetShop.Controllers
                 _animalCategoryService.Create(animalCategoryModel);
                 TempData["SuccessMessage"] = "Categoría de animal agregada correctamente.";
                 return RedirectToAction("Index");
-            }
-
+            } 
+            
             return View(model);
         }
 

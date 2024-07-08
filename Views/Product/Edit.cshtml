@@ -11,14 +11,17 @@
         <div class="input-field">
             <input type="text" id="Name" name="Name" value="@Model.Name" required>
             <label for="Name" class="active">Nombre</label>
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="input-field">
             <input type="number" step="0.01" id="Price" name="Price" value="@Model.Price" required>
             <label for="Price" class="active">Precio</label>
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="input-field">
             <input type="number" id="Stock" name="Stock" value="@Model.Stock" required>
             <label for="Stock" class="active">Stock</label>
+            <span asp-validation-for="Stock" class="text-danger"></span>
         </div>
          <div class="input-field">
             <input type="text" id="Cod" name="Cod" value="@Model.Cod" required>

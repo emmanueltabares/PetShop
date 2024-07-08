@@ -104,32 +104,56 @@ namespace PetShop.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Create(ProductCreateViewModel product) {
 			
-			if (product is null) {
-				throw new ArgumentNullException(nameof(product));
-			}
-
 			ModelState.Remove("ProductCategories");
 			ModelState.Remove("AnimalCategories");
 			ModelState.Remove("Makes");
 
 			if (ModelState.IsValid) {
-				var productModel = new Product()
-				{
-					Name = product.Name,
-					Price = product.Price,
-					Stock = product.Stock,
-					ProductCategoryId = product.ProductCategoryId,
-					AnimalCategoryId = product.AnimalCategoryId,
-					MakeId = product.MakeId,
-					Description = product.Description ?? "",
-					Cod = product.Cod ?? 0,
-				};
+				try {
+					var productModel = new Product()
+					{
+						Name = product.Name,
+						Price = product.Price,
+						Stock = product.Stock,
+						ProductCategoryId = product.ProductCategoryId,
+						AnimalCategoryId = product.AnimalCategoryId,
+						MakeId = product.MakeId,
+						Description = product.Description ?? "",
+						Cod = product.Cod ?? 0,
+					};
 
-				_productService.Create(productModel);
-				TempData["SuccessMessage"] = "Producto agregado correctamente.";
-				return RedirectToAction(nameof(Index));
+					_productService.Create(productModel);
+					TempData["SuccessMessage"] = "Producto agregado correctamente.";
+					return RedirectToAction(nameof(Index));
+				} catch (Exception ex) {
+					TempData["ErrorMessage"] = "Error al intentar agregar el producto." + ex.Message;
+					return RedirectToAction(nameof(Index));
+				}
 			}
-			return RedirectToAction(nameof(Index));
+			
+			var productCategories = _productCategoryService.GetAll();
+			var animalCategories = _animalCategoryService.GetAll();
+			var makes = _makeService.GetAll();
+
+			product.ProductCategories = productCategories.Select(pc => new SelectListItem
+			{
+				Value = pc.ProductCategoryId.ToString(),
+				Text = pc.Name
+			}).ToList();
+
+			product.AnimalCategories = animalCategories.Select(ac => new SelectListItem
+			{
+				Value = ac.AnimalCategoryId.ToString(),
+				Text = ac.Name
+			}).ToList();
+
+			product.Makes = makes.Select(m => new SelectListItem
+			{
+				Value = m.MakeId.ToString(),
+				Text = m.Name
+			}).ToList();
+
+			return View(product);
 		}
 
 		// GET: Product/Edit/5
@@ -160,8 +184,7 @@ namespace PetShop.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Edit(ProductEditViewModel product) {
 			if (ModelState.IsValid) {
-				try
-				{
+				try {
 					var productFound = _productService.GetById(product.ProductId);
 					if(productFound == null) return NotFound();
 					
@@ -174,25 +197,13 @@ namespace PetShop.Controllers
 					_productService.Update(productFound);
 					TempData["SuccessMessage"] = "Producto actualizado correctamente.";
 					return RedirectToAction(nameof(Index));
-				}
-				catch (Exception ex)
-				{
+				} catch (Exception ex) {
 					TempData["ErrorMessage"] = "Error al intentar actualizar el producto." + ex.Message;
 					return RedirectToAction(nameof(Index));
 				}
 			}
 
-			TempData["ErrorMessage"] = "Complete los datos requeridos";
-			
-			var model = new ProductEditViewModel {
-				ProductId = product.ProductId,
-				Name = product.Name,
-				Price = product.Price,
-				Stock = product.Stock,
-				Description = product.Description,
-				Cod = product.Cod,
-			};
-			return View(model);
+			return View(product);
 		}
 
 		// GET: Product/Delete/5

@@ -143,44 +143,48 @@ public class UserController : Controller
     [HttpPost]
     public async Task<IActionResult> EditConfirmed(UserEditViewModel model)
     {
-
         if(!ModelState.IsValid) return View(model);
-        
-        var user = await _userManager.FindByIdAsync(model.Id);
-        if (user == null) return NotFound();
+        try {
 
-        user.PhoneNumber = model.Phone;
-        user.PasswordHash = user.PasswordHash;
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null) return NotFound();
 
-        if(!string.IsNullOrEmpty(model.UserName)) {
+            user.PhoneNumber = model.Phone;
+            user.PasswordHash = user.PasswordHash;
 
-            var normalizedUserName = string.Concat(model.UserName.Split(' ').Select(word =>
-            CultureInfo.CurrentCulture.TextInfo.ToTitleCase(word.ToLower())));
-            user.UserName = normalizedUserName;
-        } else {
-            TempData["ErrorMessage"] = "El nombre de usuario no puede estar vacío";
-            return View(model);
-        }
+            if(!string.IsNullOrEmpty(model.UserName)) {
 
-        var result = await _userManager.UpdateAsync(user);
-        if(result.Succeeded) {
-
-            if(!string.IsNullOrEmpty(model.RoleId)) {
-                var newRole = await _roleManager.FindByIdAsync(model.RoleId.ToString());
-                if(newRole != null) {
-                    var currentRole = await _userManager.GetRolesAsync(user);
-                    if(currentRole.Count == 0) {
-                         await _userManager.AddToRoleAsync(user, newRole.Name);
-                    } else if(currentRole.FirstOrDefault() != newRole.Name) {
-                        await _userManager.RemoveFromRoleAsync(user, currentRole.FirstOrDefault());
-                        await _userManager.AddToRoleAsync(user, newRole.Name);
-                    }
-                } 
+                var normalizedUserName = string.Concat(model.UserName.Split(' ').Select(word =>
+                CultureInfo.CurrentCulture.TextInfo.ToTitleCase(word.ToLower())));
+                user.UserName = normalizedUserName;
+            } else {
+                TempData["ErrorMessage"] = "El nombre de usuario no puede estar vacío";
+                return View(model);
             }
 
-            TempData["SuccessMessage"] = "Usuario actualizado correctamente";
-            return RedirectToAction(nameof(Index));
-        } else {
+            var result = await _userManager.UpdateAsync(user);
+            if(result.Succeeded) {
+
+                if(!string.IsNullOrEmpty(model.RoleId)) {
+                    var newRole = await _roleManager.FindByIdAsync(model.RoleId.ToString());
+                    if(newRole != null) {
+                        var currentRole = await _userManager.GetRolesAsync(user);
+                        if(currentRole.Count == 0) {
+                            await _userManager.AddToRoleAsync(user, newRole.Name);
+                        } else if(currentRole.FirstOrDefault() != newRole.Name) {
+                            await _userManager.RemoveFromRoleAsync(user, currentRole.FirstOrDefault());
+                            await _userManager.AddToRoleAsync(user, newRole.Name);
+                        }
+                    } 
+                }
+
+                TempData["SuccessMessage"] = "Usuario actualizado correctamente";
+                return RedirectToAction(nameof(Index));
+            } else {
+                TempData["ErrorMessage"] = "No se pudo actualizar el usuario";
+                return View(model);
+            }
+        } catch (Exception ex) {
             TempData["ErrorMessage"] = "No se pudo actualizar el usuario";
             return View(model);
         }

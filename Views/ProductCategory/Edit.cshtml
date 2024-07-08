@@ -10,6 +10,7 @@
         <div class="input-field">
             <input type="text" id="Name" name="Name" value="@Model.Name" required>
             <label for="Name" class="active">Nombre</label>
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <button type="submit" class="btn waves-effect waves-light">Guardar Cambios</button>
         <a href="@Url.Action("Index", "ProductCategory")" class="btn grey waves-effect waves-light">Cancelar</a>

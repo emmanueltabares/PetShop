@@ -19,6 +19,7 @@
         <div class="input-field">
             <input type="text" id="Name" name="Name" required>
             <label for="Name">Nombre del Rol</label>
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <button type="submit" class="btn waves-effect waves-light">Guardar</button>
         <a href="@Url.Action("Index", "Role")" class="btn grey waves-effect waves-light">Volver</a>

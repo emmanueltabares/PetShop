@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PetShop.ViewModel.UserViewModels;
@@ -5,6 +6,8 @@ namespace PetShop.ViewModel.UserViewModels;
 public class UserEditViewModel
 {
     public string Id { get; set; }
+
+    [Required(ErrorMessage = "El nombre de usuario es requerido")]
     public required string UserName { get; set; }
     public string? Phone { get; set; }
 

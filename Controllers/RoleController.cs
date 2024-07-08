@@ -50,19 +50,26 @@ public class RoleController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(RoleCreateViewModel model)
     {
-        if(!ModelState.IsValid) return View();
-        
-        if(string.IsNullOrEmpty(model.Name)) return View();
-        
-        var role = new IdentityRole(model.Name);
-        var result = await _roleManager.CreateAsync(role);
-        if(result.Succeeded) {
-            TempData["SuccessMessage"] = "Rol agregado correctamente";
+        if(!ModelState.IsValid) return View(model);
+
+        try {
+            if(string.IsNullOrEmpty(model.Name)) return View();
+            
+            var role = new IdentityRole(model.Name);
+            var result = await _roleManager.CreateAsync(role);
+            if(result.Succeeded) {
+                TempData["SuccessMessage"] = "Rol agregado correctamente";
+                return RedirectToAction(nameof(Index));
+            } else {
+                TempData["ErrorMessage"] = "Error al agregar el rol";
+                return RedirectToAction(nameof(Index));
+            }
+
+        } catch (Exception ex) {
+            TempData["ErrorMessage"] = "Error al agregar el rol" + ex.Message;
             return RedirectToAction(nameof(Index));
-        } else {
-            TempData["ErrorMessage"] = "Error al agregar el rol";
-            return RedirectToAction(nameof(Index));
-        }
+        } 
+        
     }
 
     public IActionResult Delete(string? id)

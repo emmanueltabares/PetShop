@@ -6,54 +6,60 @@
 <div class="container">
     <form asp-action="Create" method="post">
         <div class="input-field">
-            <input type="text" id="Name" name="Name" required>
-            <label for="Name">Nombre</label>
+            <input asp-for="Name" type="text" id="Name" name="Name" required>
+            <label asp-for="Name" for="Name">Nombre</label>
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="input-field">
-            <select id="ProductCategoryId" name="ProductCategoryId">
+            <select asp-for="ProductCategoryId" id="ProductCategoryId" name="ProductCategoryId">
                 <option value="" disabled selected>Seleccione una categoría de producto</option>
                 @foreach (var category in Model.ProductCategories)
                 {
                     <option value="@category.Value">@category.Text</option>
                 }
             </select>
-            <label for="ProductCategoryId">Categoría de Producto</label>
+            <label asp-for="ProductCategoryId" for="ProductCategoryId">Categoría de Producto</label>
+            <span asp-validation-for="ProductCategoryId" class="text-danger"></span>
         </div>
         <div class="input-field">
-            <select id="AnimalCategoryId" name="AnimalCategoryId">
+            <select asp-for="AnimalCategoryId" id="AnimalCategoryId" name="AnimalCategoryId">
                 <option value="" disabled selected>Seleccione una categoría de animal</option>
                 @foreach (var category in Model.AnimalCategories)
                 {
                     <option value="@category.Value">@category.Text</option>
                 }
             </select>
-            <label for="AnimalCategoryId">Categoría de Animal</label>
+            <label asp-for="AnimalCategoryId" for="AnimalCategoryId">Categoría de Animal</label>
+            <span asp-validation-for="AnimalCategoryId" class="text-danger"></span>
         </div>
         <div class="input-field">
-            <select id="MakeId" name="MakeId">
+            <select asp-for="MakeId" id="MakeId" name="MakeId">
                 <option value="" disabled selected>Seleccione un fabricante</option>
                 @foreach (var make in Model.Makes)
                 {
                     <option value="@make.Value">@make.Text</option>
                 }
             </select>
-            <label for="MakeId">Fabricante</label>
+            <label asp-for="MakeId" for="MakeId">Fabricante</label>
+            <span asp-validation-for="MakeId" class="text-danger"></span>
         </div>
         <div class="input-field">
-            <input type="text" id="Cod" name="Cod">
-            <label for="Cod">Código</label>
+            <input asp-for="Cod" type="text" id="Cod" name="Cod">
+            <label asp-for="Cod" for="Cod">Código</label>
         </div>
         <div class="input-field">
-            <textarea id="Description" name="Description" class="materialize-textarea"></textarea>
-            <label for="Description">Descripción</label>
+            <textarea asp-for="Description" id="Description" name="Description" class="materialize-textarea"></textarea>
+            <label asp-for="Description" for="Description">Descripción</label>
         </div>
         <div class="input-field">
-            <input type="number" step="0.01" id="Price" name="Price" required>
-            <label for="Price">Precio</label>
+            <input asp-for="Price" type="number" step="0.01" id="Price" name="Price" required>
+            <label asp-for="Price" for="Price">Precio</label>
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="input-field">
-            <input type="number" id="Stock" name="Stock" required>
-            <label for="Stock">Stock</label>
+            <input asp-for="Stock" type="number" id="Stock" name="Stock" required>
+            <label asp-for="Stock" for="Stock">Stock</label>
+            <span asp-validation-for="Stock" class="text-danger"></span>
         </div>
         <button type="submit" class="btn waves-effect waves-light">Guardar</button>
         <a href="@Url.Action("Index", "Product")" class="btn grey waves-effect waves-light">Volver</a>

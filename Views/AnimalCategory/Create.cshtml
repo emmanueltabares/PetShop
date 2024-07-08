@@ -9,8 +9,13 @@
         <div class="input-field">
             <input type="text" id="Name" name="Name" required>
             <label for="Name">Nombre</label>
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <button type="submit" class="btn waves-effect waves-light">Guardar</button>
         <a href="@Url.Action("Index", "AnimalCategory")" class="btn grey waves-effect waves-light">Volver</a>
     </form>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

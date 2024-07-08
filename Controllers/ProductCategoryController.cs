@@ -61,17 +61,22 @@ namespace PetShop.Controllers
         public IActionResult Create(ProductCategoryCreateViewModel model)
         {
             if(ModelState.IsValid) {
+                try {
+                    var category = new ProductCategory() {
+                        Name = model.Name
+                    };
 
-                var category = new ProductCategory() {
-                    Name = model.Name
-                };
+                    _productCategoryService.Create(category);
+                    TempData["SuccessMessage"] = "Categoría de producto agregada correctamente.";
+                    return RedirectToAction(nameof(Index));
 
-               _productCategoryService.Create(category);
-               TempData["SuccessMessage"] = "Categoría de producto agregada correctamente.";
-                return RedirectToAction(nameof(Index));
+                } catch (Exception ex) {
+                    TempData["ErrorMessage"] = "No se pudo agregar la categoría de producto." + ex.Message;
+                    return View(model);
+                }
             }
 
-            return View("Index");
+            return View(model);
         }
 
         // GET: Category/Edit/5
@@ -100,15 +105,11 @@ namespace PetShop.Controllers
             if (id != category.ProductCategoryId) return NotFound();
 
             if(ModelState.IsValid) {
-                try
-                {
+                try {
                     _productCategoryService.Update(category);
                     TempData["SuccessMessage"] = "Categoría de producto actualizada correctamente.";
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.ProductCategoryId)) return NotFound();
-                    else throw;
+                } catch (Exception ex) {
+                    TempData["ErrorMessage"] = "No se pudo actualizar la categoría de producto." + ex.Message;
                 }
                 
                 return RedirectToAction(nameof(Index));
@@ -156,11 +157,6 @@ namespace PetShop.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CategoryExists(int id)
-        {
-          return _productCategoryService.GetById(id) != null;
         }
     }
 }
