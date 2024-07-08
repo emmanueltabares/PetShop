@@ -54,7 +54,9 @@ Si el stock de algún producto no supera la cantidad del pedido, la orden no pod
 
 ## Integridad de información
 - Las ordenes de compra ya despachadas no podrán ser eliminadas por usuarios que no sean Administradores. Aquellas ordenes que se eliminen, también eliminará los detalles de dicha orden.
-- Eliminar un usuario sólo estará permitido si no tiene órdenes asignadas.
 - Eliminar un producto sólo estará permitido si no es parte de un detalle de órden.
 - Eliminar un rol sólo estará permitido si no existen usuarios con dicho rol asignado.
 - Eliminar una Marca o Categoría, sólo stará permitido si no hay Productos que tengan asignado dicha Marca o Categoría.
+
+## Importante
+- La eliminación de un usuario eliminará todos sus datos relaciones, incluyendo órdenes de compra.
