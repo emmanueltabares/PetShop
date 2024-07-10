@@ -31,13 +31,14 @@ class ProductService : IProductService {
     public List<Product> GetAll(string filter)
     {
         var query = from product in _productContext.Product select product;
-
         if (!string.IsNullOrEmpty(filter)) {
+
+        var lowerFilter = filter.ToLower();
             query = query.Where(x => 
-                    x.Name.Contains(filter) ||
-                    x.ProductCategory.Name.Contains(filter) ||
-                    x.AnimalCategory.Name.Contains(filter) ||
-                    x.Make.Name.Contains(filter)
+                    x.Name.ToLower().Contains(lowerFilter) ||
+                    x.ProductCategory.Name.ToLower().Contains(lowerFilter) ||
+                    x.AnimalCategory.Name.ToLower().Contains(lowerFilter) ||
+                    x.Make.Name.ToLower().Contains(lowerFilter)
                 )
                 .Include(p => p.ProductCategory)
                 .Include(p => p.AnimalCategory)

@@ -42,7 +42,7 @@ class ProductCategoryService : IProductCategoryService
     {
         var query = from category in _productContext.Category select category;
         if (!string.IsNullOrEmpty(filter)) {
-            query = query.Where(x => x.Name.Contains(filter));
+            query = query.Where(x => x.Name.ToLower().Contains(filter.ToLower()));
         }
 
         return query.ToList();

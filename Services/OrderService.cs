@@ -27,6 +27,7 @@ class OrderService : IOrderService {
   public List<Order> GetAll(string filter)
   {
     var query = from order in _context.Order select order;
+
     if (!string.IsNullOrEmpty(filter)) {
       query = query.Where(
           x => x.OrderId.ToString().Contains(filter)
